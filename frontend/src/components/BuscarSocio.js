@@ -6,16 +6,24 @@ function BuscarSocio () {
 
     const [datos, setDatos] = useState('');
     const [socio, setSocio] = useState(null);
+    const [error, setError] = useState(null);
     const [mostrarInfo, setMostrarInfo] = useState(false);
 
     const buscarDatos = async (datos) => {
+        setError(null); // Reseteamos el error al iniciar la búsqueda
+        setSocio(null);
+        setMostrarInfo(false);
         try {
             const respuesta = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/socio/${datos}`);
             setSocio(respuesta.data);
             setMostrarInfo(true);
         } catch (error) {
-            console.log('Error al obtener los datos:', error);
+            if(error.response && error.response.status === 404) {
+                console.log('No se encontraron resultados');
+                setError('No se encontraron resultados');
+            }
         }
+       
     }
 
     const handleChange = (e) => {
@@ -33,7 +41,10 @@ function BuscarSocio () {
                 onChange={handleChange}
                 onBlur={() => buscarDatos(datos)}
             />
-            {mostrarInfo &&
+
+            {error && <p>{error}</p>}
+
+            {socio &&
                 <InfoSocio socio={socio} />
             }
         </div>

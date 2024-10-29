@@ -10,8 +10,15 @@ function InfoSocio( { socio }) {
             <ul>
                 <li>Nombres: {socio.nombres}</li> 
                 <li>Fuerza: {socio.fuerza}</li>
+                <li>Grado: {socio.grado}</li>
                 <li>Edad: {socio.edad}</li>  
             </ul>
+            <form>
+                <label>Nro de acompañantes:</label>
+                <input 
+                    type='number'
+                />
+            </form>
             <h3>Su visita ha sido registrada</h3>
         </div>
     )
