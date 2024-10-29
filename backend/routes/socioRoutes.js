@@ -4,5 +4,7 @@ const socioController = require('../controllers/socioController');
 
 
 router.get('/socio/:datos', socioController.buscarSocio);
+router.post('/socio/registro', socioController.registrarSocio);
+
 
 module.exports = router;

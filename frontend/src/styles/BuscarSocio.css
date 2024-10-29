@@ -1,0 +1,100 @@
+.registro__titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.registro__titulo h3 {
+    margin: 0;
+}
+
+.busqueda {
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.busqueda__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f7f7f7; /* Fondo suave */
+    width: 50%;
+    padding: 20px;
+    gap: 10px;
+    margin: 20px 20px;
+
+
+}
+
+.busqueda__form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    align-self: flex-start;
+}
+
+/* Estilos para los inputs */
+.busqueda__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+}
+
+
+.busqueda__button {
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    width: 50%;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    font-size: 16px; /* Tamaño de fuente */
+    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
+    background-color: #133E87;
+    color: #FFFFFF;
+}
+
+
+.busqueda__button--borrar {
+    background-color: #dc3545; /* Color rojo para indicar peligro o eliminación */
+    color: white; /* Texto en blanco */
+    border: none; /* Sin borde */
+    padding: 10px 20px; /* Espaciado */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s; /* Transición suave al cambiar de color */
+}
+
+.busqueda__registro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info {
+    background-color: #f7f7f7; /* Fondo suave */
+    padding: 20px;
+    width: 50%; 
+    margin: 0 20px;
+
+}
+
+.info__titulo {
+    font-weight: bold;
+}
+
+.info__lista {
+    list-style-type: none;
+    padding: 0;
+
+}
+
+.info__item {
+    font-size: 20px;
+}

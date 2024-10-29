@@ -1,3 +1,46 @@
-li {
-    list-style: none;
+.mensaje-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    background-color: #f7f7f7; /* Fondo suave */
+    height: 400px;
+
 }
+
+.mensaje-container__titulo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mensaje-container__logo {
+    width: 50px;
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.mensaje-container__nombre {
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+.mensaje-container__slogan {
+    margin-top: 0;
+    /* Espacio entre título y eslogan */
+}
+
+.mensaje-container__lista {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.mensaje-container__item {
+    font-size: 20px;
+}
+
