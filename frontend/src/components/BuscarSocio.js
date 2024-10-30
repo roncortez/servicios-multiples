@@ -126,6 +126,7 @@ function BuscarSocio() {
                         disabled={tarjeta.length > 0}
                         minLength={10}
                         maxLength={10}
+                        autoFocus
                     />
                     {error && <p className='busqueda-form__error'>{error}</p>}
 
@@ -156,8 +157,11 @@ function BuscarSocio() {
                                     <input
                                         type='number'
                                         value={invitados}
+                                        min='0'
+                                        max='10'
                                         onChange={(e) => setInvitados(e.target.value)}
                                         disabled={registro}
+
                                     />
                                 </div>
                             </div>
