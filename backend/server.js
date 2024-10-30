@@ -7,7 +7,7 @@ const socioRouter = require('./routes/socioRoutes');
 
 const allowedOrigins = [
   'http://localhost:3000', // Desarrollo en localhost
-  'https://churin-fun-flais.onrender.com' // Producción
+  'https://servicios-multiples-1pch.onrender.com' // Producción
 ];
 
 app.use(cors({
