@@ -23,8 +23,8 @@
     align-items: center;
     justify-content: center;
     background-color: #f7f7f7; /* Fondo suave */
-    width: 50%;
-    padding: 20px;
+    width: 40%;
+    padding: 30px;
     gap: 10px;
     margin: 20px 20px;
 
@@ -75,6 +75,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
+    padding: 30px;
+}
+
+.busqueda__registro-invitados {
+    display: flex;
+    
+}
+
+.busqueda__registro-invitados input, .busqueda__registro-invitados label {
+    font-size: 17px;
 }
 
 .info {

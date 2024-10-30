@@ -135,29 +135,31 @@ function BuscarSocio() {
                 <div className='info'>
                     {socio ?
                         <>
-                            <p className='info__titulo'>Datos del socio:</p>
+                            <h3 className='info__titulo'>Datos:</h3>
                             <ul className='info__lista'>
                                 <li className='info__item'>Nombres: {socio.nombres}</li>
                                 <li className='info__item'>Grado: {socio.grado}</li>
                                 <li className='info__item'>Fuerza: {socio.fuerza}</li>
                                 <li className='info__item'>Edad: {socio.edad}</li>
                             </ul>
-                            
+
                             <div className='busqueda__registro'>
-                            <button 
-                                className='busqueda__button busqueda__button--registrar' 
-                                type='submit' 
-                                onClick={registrarVisita}
-                                disabled={registro}>
-                            Registrar
-                            </button>
-                            <label>Nro. de invitados: </label>
-                            <input
-                                type='number'
-                                value={invitados}
-                                onChange={(e) => setInvitados(e.target.value)}
-                                disabled={registro}
-                            />
+                                <button
+                                    className='busqueda__button busqueda__button--registrar'
+                                    type='submit'
+                                    onClick={registrarVisita}
+                                    disabled={registro}>
+                                    Registrar
+                                </button>
+                                <div className='busqueda__registro-invitados'>
+                                    <label>Nro. de invitados: </label>
+                                    <input
+                                        type='number'
+                                        value={invitados}
+                                        onChange={(e) => setInvitados(e.target.value)}
+                                        disabled={registro}
+                                    />
+                                </div>
                             </div>
                             {registro &&
                                 <>
