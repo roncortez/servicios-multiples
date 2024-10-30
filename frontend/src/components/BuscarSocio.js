@@ -79,7 +79,6 @@ function BuscarSocio() {
                 })
                 setRegistro(true);
                 setInvitados(0);
-                alert('Visita registrada');
             }
             else {
                 alert('Consulte un socio antes de registrar');
