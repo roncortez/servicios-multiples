@@ -7,8 +7,6 @@ function InfoSocio() {
 
     const { socio, registro } = useContext(SocioContext);
 
-    const BASE_URL = `${process.env.REACT_BACKEND_URL}/api/socio/foto`;
-
     return (
         <div className='mensaje-container'>
             <div className='mensaje-container__titulo-container'>
@@ -21,7 +19,7 @@ function InfoSocio() {
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
-                            {socio.foto === '' || socio.foto === null (
+                            {socio.foto === '' || socio.foto && (
                                 <>
                                     <img
                                         className='mensaje-container__foto'

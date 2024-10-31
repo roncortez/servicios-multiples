@@ -25,8 +25,6 @@ function BuscarSocio() {
             return;
         }
 
-
-
         try {
 
             let datosConsulta = tarjeta ? tarjeta : cedula;
