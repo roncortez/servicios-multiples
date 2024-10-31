@@ -19,6 +19,7 @@ function InfoSocio() {
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
+                            {/*
                             {(socio.foto === '' || socio.foto) && (
                                 <>
                                     <img
@@ -27,6 +28,7 @@ function InfoSocio() {
                                     />
                                 </>
                             )}
+                                */}
                         </li>
                         <li className='mensaje-container__item'>Nombres: {socio.nombres}</li>
                         <li className='mensaje-container__item'>Fuerza: {socio.fuerza}</li>
