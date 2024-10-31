@@ -21,7 +21,7 @@ function InfoSocio() {
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
-                            {socio.foto && (
+                            {socio.foto === '' || socio.foto === null (
                                 <>
                                     <img
                                         className='mensaje-container__foto'
