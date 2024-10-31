@@ -3,7 +3,8 @@ const cors = require('cors');
 const app = express();
 const port = process.env.port || 10000;
 const socioRouter = require('./routes/socioRoutes');
-
+const path = require('path'); // Asegúrate de importar path
+const os = require('os'); 
 
 const allowedOrigins = [
   'http://localhost:3000', // Desarrollo en localhost
@@ -22,6 +23,7 @@ app.use(cors({
   allowedHeaders: 'Content-Type,Authorization'
 }));
 
+app.use('/fotos', express.static(path.join(os.tmpdir(), 'fotos')));
 app.use(express.json()); // Asegúrate de tener esto para que Express pueda analizar el cuerpo JSON
 app.use('/api', socioRouter);
 

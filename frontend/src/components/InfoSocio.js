@@ -7,6 +7,8 @@ function InfoSocio() {
 
     const { socio, registro } = useContext(SocioContext);
 
+    const BASE_URL = `${process.env.REACT_BACKEND_URL}/api/socio/foto`;
+
     return (
         <div className='mensaje-container'>
             <div className='mensaje-container__titulo-container'>
@@ -14,15 +16,26 @@ function InfoSocio() {
                 <h2 className='mensaje-container__nombre'>Círculo Militar</h2>
                 <h4 className='mensaje-container__slogan'>¡Mucho más que un buen club!</h4>
             </div>
+            <h1 className='mensaje-container__bienvenida'>¡Bienvenido!</h1>
             {socio ? (
-                <>         
-                    <h2 className='mensaje-container__bienvenida'>¡Bienvenido!</h2>
+                <>
                     <ul className='mensaje-container__lista'>
+                        <li className='mensaje-container__item foto-item'>
+                            {socio.foto && (
+                                <>
+                                    <img
+                                        className='mensaje-container__foto'
+                                        src={socio.foto}
+                                    />
+                                </>
+                            )}
+                        </li>
                         <li className='mensaje-container__item'>Nombres: {socio.nombres}</li>
                         <li className='mensaje-container__item'>Fuerza: {socio.fuerza}</li>
                         <li className='mensaje-container__item'>Grado: {socio.grado}</li>
                         <li className='mensaje-container__item'>Edad: {socio.edad}</li>
                     </ul>
+
                 </>
             ) : (
                 <h2 className='mensaje-container__titulo'>Esperando datos...</h2>

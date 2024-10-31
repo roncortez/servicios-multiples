@@ -5,9 +5,8 @@
     align-items: center;
     margin: 20px auto;
     background-color: #f7f7f7; /* Fondo suave */
-    height: 400px;
+    max-height: 700px;
     padding: 20px;
-
 }
 
 .mensaje-container__titulo-container {
@@ -15,6 +14,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.mensaje-container__foto-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+
+.mensaje-container__foto {
+    width: 250px; /* Ancho fijo */
+    height: 250px; /* Alto fijo */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    border: 5px solid #3498db; /* Cambia el color y grosor aquí */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para un efecto elegante */
+}
+
+.foto-item {
+    text-align: center;
 }
 
 .mensaje-container__logo {
@@ -31,17 +49,14 @@
 
 .mensaje-container__slogan {
     margin-top: 0;
-    /* Espacio entre título y eslogan */
 }
 
 .mensaje-container__lista {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    
 }
 
 .mensaje-container__item {
-    font-size: 20px;
+    font-size: 24px; /* Tamaño del texto */
 }
-
