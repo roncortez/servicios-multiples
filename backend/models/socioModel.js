@@ -2,24 +2,44 @@ const sql = require('mssql');
 const { poolPromise } = require('../config/db');
 
 const socioModel = {
-    buscarSocio: async (datosConsulta) => {
+    buscarSocio: async (campo, datoConsulta) => {
         try {
             let respuesta;
             const pool = await poolPromise;
-            
-            if (datosConsulta.length <= 10) {
+
+            // Revisa qué campo está siendo utilizado para la búsqueda.
+            if (campo === 'cedula') {
+                // Buscar por cédula
                 respuesta = await pool.request()
-                    .input('cedula', sql.VarChar, datosConsulta)
-                    .query('SELECT * FROM socios WHERE cedula = @cedula')
+                    .input('cedula', sql.VarChar, datoConsulta)
+                    .query('SELECT * FROM socios WHERE cedula = @cedula');
                 return respuesta.recordset[0];
-            } else {
+
+            } else if (campo === 'num_tarjeta') {
+                // Buscar por número de tarjeta
                 respuesta = await pool.request()
-                    .input('num_tarjeta', sql.VarChar, datosConsulta)
-                    .query('SELECT * FROM socios WHERE num_tarjeta = @num_tarjeta')
+                    .input('num_tarjeta', sql.VarChar, datoConsulta)
+                    .query('SELECT * FROM socios WHERE num_tarjeta = @num_tarjeta');
+                return respuesta.recordset[0];
+
+            } else if (campo === 'faf') {
+                // Buscar por FAF
+                respuesta = await pool.request()
+                    .input('num_poliza', sql.VarChar, datoConsulta)
+                    .query('SELECT * FROM socios WHERE num_poliza = @num_poliza');
+                return respuesta.recordset[0];
+
+            } else if (campo === 'nombres') {
+                // Buscar por nombres (utilizando LIKE para permitir coincidencias parciales)
+                respuesta = await pool.request()
+                    .input('nombres', sql.VarChar, `%${datoConsulta}%`) // Agregar '%' para buscar coincidencias parciales
+                    .query('SELECT * FROM socios WHERE nombres LIKE @nombres');
                 return respuesta.recordset[0];
             }
-            
-               
+
+            // Si no se encontró el socio con los datos proporcionados
+            return null;
+
         } catch (error) {
             console.error('Error en el modelo al obtener el socio:', error);
             throw error;
@@ -27,7 +47,6 @@ const socioModel = {
     },
 
     registrarSocio: async (datos) => {
-        
         const { id_socio, invitados } = datos;
 
         try {  
@@ -45,4 +64,3 @@ const socioModel = {
 }
 
 module.exports = socioModel;
-

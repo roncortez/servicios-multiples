@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 
-router.get('/socio/:datos', socioController.buscarSocio);
+router.post('/socio/buscar', socioController.buscarSocio);
 
 // Ruta para servir fotos de socios
 // Ruta para servir fotos de socios

@@ -1,101 +1,94 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { SocioContext } from '../context/SocioContext';
-import '../styles/BuscarSocio.css'
-
+import '../styles/BuscarSocio.css';
 
 function BuscarSocio() {
-
-    const [tarjeta, setTarjeta] = useState('');
-    const [cedula, setCedula] = useState('');
+    const [datoConsulta, setDatoConsulta] = useState('');
+    const [campoActivo, setCampoActivo] = useState('');
     const [invitados, setInvitados] = useState(0);
     const { socio, setSocio, registro, setRegistro } = useContext(SocioContext);
     const [error, setError] = useState(null);
-    const [timeoutId, setTimeoutId] = useState(null); // Para almacenar el ID del temporizador
-
+    const [timeoutId, setTimeoutId] = useState(null);
 
     const buscarDatos = async (e) => {
-        e.preventDefault(); // Previene el comportamiento predeterminado del formulario
-        setError(null); // Reseteamos el error al iniciar la búsqueda
+        e.preventDefault();
+        setError(null);
         setSocio(null);
-        setRegistro(false); // Resetea `registro` al iniciar una nueva búsqueda
+        setRegistro(false);
 
-        if (cedula === '' && tarjeta === '') {
+        if (!datoConsulta) {
             setError('Llene uno de los dos campos');
             return;
         }
 
+        // Determinar el campo a buscar basado en el campo activo
+        const campo = campoActivo;
+
         try {
-
-            let datosConsulta = tarjeta ? tarjeta : cedula;
-
-            const respuesta = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/socio/${datosConsulta}`);
+            const url = `${process.env.REACT_APP_BACKEND_URL}/api/socio/buscar`;
+            const respuesta = await axios.post(url, {
+                [campo]: datoConsulta // Usar el name del input como clave
+            });
             setSocio(respuesta.data);
-
-            setCedula(''); // Se limpia el input 
-            setTarjeta('');
-
-
+            setDatoConsulta('');
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                console.log('No se encontraron resultados');
                 setError('No se encontraron resultados');
             } else {
-                console.error('Error en la solicitud:', error); // Muestra otros errores para depuración
+                console.error('Error en la solicitud:', error);
             }
         }
-
     };
 
     const borrarCampos = () => {
-        setCedula('');
-        setTarjeta('');
+        setDatoConsulta('');
+        setCampoActivo('');
         setSocio(null);
         setError(null);
         setRegistro(false);
-    }
+    };
+
+    const manejarCambio = (campo, datoConsulta) => {
+        setCampoActivo(campo);
+        setDatoConsulta(datoConsulta);
+    };
 
     const registrarVisita = async () => {
-        // Limpiar el temporizador anterior, si existe
         if (timeoutId) {
             clearTimeout(timeoutId);
         }
-        try {
 
+        try {
             const id = setTimeout(() => {
                 setSocio(null);
-                setRegistro(false); // Elimina el socio
-            }, 20000); // 20 segundos
+                setRegistro(false);
+            }, 20000);
 
-            setTimeoutId(id); // Guarda el ID del temporizador
+            setTimeoutId(id);
 
             if (socio) {
-
                 await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/socio/registro`, {
                     id_socio: socio.id_socio,
                     invitados: invitados
-                })
+                });
                 setRegistro(true);
                 setInvitados(0);
-            }
-            else {
+            } else {
                 alert('Consulte un socio antes de registrar');
             }
         } catch (error) {
-
+            console.error(error);
         }
-    }
-
+    };
 
     useEffect(() => {
         return () => {
-            // Limpia el temporizador si el componente se desmonta
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }
         };
     }, [timeoutId]);
-
 
     return (
         <div className='registro'>
@@ -110,21 +103,43 @@ function BuscarSocio() {
                     <label className='busqueda__label'>Tarjeta: </label>
                     <input
                         className='busqueda__input'
-                        value={tarjeta}
-                        onChange={(e) => setTarjeta(e.target.value)}
-                        disabled={cedula.length > 0}
+                        name='num_tarjeta'
+                        value={campoActivo === 'num_tarjeta' ? datoConsulta : ''}
+                        onChange={(e) => manejarCambio('num_tarjeta', e.target.value)}
+                        disabled={campoActivo && campoActivo !== 'num_tarjeta'}
                     />
 
                     <label className='busqueda__label'>Cédula:</label>
                     <input
                         className='busqueda__input'
-                        value={cedula}
-                        onChange={(e) => setCedula(e.target.value)}
-                        disabled={tarjeta.length > 0}
+                        name='cedula'
+                        value={campoActivo === 'cedula' ? datoConsulta : ''}
+                        onChange={(e) => manejarCambio('cedula', e.target.value)}
+                        disabled={campoActivo && campoActivo !== 'cedula'}
                         minLength={10}
                         maxLength={10}
+                    />
+
+                    <label className='busqueda__label'>Nombres:</label>
+                    <input
+                        type='text'
+                        className='busqueda__input'
+                        name='nombres'
+                        value={campoActivo === 'nombres' ? datoConsulta : ''}
+                        onChange={(e) => manejarCambio('nombres', e.target.value)}
+                        disabled={campoActivo && campoActivo !== 'nombres'}
+                    />
+
+                    <label className='busqueda__label'>FAF:</label>
+                    <input
+                        className='busqueda__input'
+                        name='faf'
+                        value={campoActivo === 'faf' ? datoConsulta : ''}
+                        onChange={(e) => manejarCambio('faf', e.target.value)}
+                        disabled={campoActivo && campoActivo !== 'faf'}
                         autoFocus
                     />
+
                     {error && <p className='busqueda-form__error'>{error}</p>}
 
                     <button className='busqueda__button busqueda__button--consultar' type='submit'>Consultar</button>
@@ -158,7 +173,6 @@ function BuscarSocio() {
                                         max='10'
                                         onChange={(e) => setInvitados(e.target.value)}
                                         disabled={registro}
-
                                     />
                                 </div>
                             </div>
@@ -168,17 +182,12 @@ function BuscarSocio() {
                                     <p>Número de acompañantes: {invitados} </p>
                                 </>
                             }
-
                         </> : <p>Esperando datos...</p>
                     }
-
-
                 </div>
-
             </div>
-
         </div>
-    )
+    );
 }
 
 export default BuscarSocio;

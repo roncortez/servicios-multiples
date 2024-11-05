@@ -4,9 +4,11 @@ const fs = require('fs');
 
 const socioController = {
     buscarSocio: async (req, res) => {
-        const datos = req.params.datos;
+        // Extraer el campo y dato del cuerpo de la solicitud
+        const campo = Object.keys(req.body)[0]; // Obtiene el nombre del campo (cedula, num_tarjeta, etc.)
+        const dato = req.body[campo]; // Obtiene el dato asociado a ese campo
         try {
-            const respuesta = await socioModel.buscarSocio(datos);
+            const respuesta = await socioModel.buscarSocio(campo, dato);
 
             if (!respuesta) {
                 return res.status(404).json({ message: 'Datos no encontrados' });
@@ -16,7 +18,7 @@ const socioController = {
                 const nombreFoto = respuesta.foto.split('\\').pop().trim();
                 const rutaDirectorio = '\\\\192.168.0.205\\Public\\FOTOS_SOCIOS'; // Ruta del directorio
                 const rutaFoto = path.join(rutaDirectorio, nombreFoto);
-                
+
                 console.log('Ruta de foto a verificar:', rutaFoto); // Para depuración
 
                 try {
