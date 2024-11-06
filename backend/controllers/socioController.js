@@ -1,7 +1,7 @@
 const socioModel = require('../models/socioModel');
 const path = require('path');
 const { descargarFoto } = require('../config/ftp.js')
-
+const os = require('os'); // Para obtener el directorio temporal del sistema    
 const fs = require('fs');
 
 const socioController = {
@@ -22,7 +22,8 @@ const socioController = {
                     return res.status(200).json(respuesta);
                 } else {
                     // Usamos la ruta absoluta para el destino de la descarga, incluyendo el nombre del archivo
-                    const rutaDestino = path.join(__dirname, '../fotos', nombreFoto);  // Concatenar el nombre del archivo al directorio de destino // Concatenar nombreFoto a la ruta destino                // Descargar el archivo al directorio local
+                    //const rutaDestino = path.join(__dirname, '../fotos', nombreFoto);  // Concatenar el nombre del archivo al directorio de destino // Concatenar nombreFoto a la ruta destino                // Descargar el archivo al directorio local
+                    const rutaDestino = path.join(os.tmpdir(), nombreFoto); 
                     console.log(rutaDestino);
                     try {
                         // Intentar descargar el archivo
