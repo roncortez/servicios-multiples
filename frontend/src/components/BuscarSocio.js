@@ -150,6 +150,7 @@ function BuscarSocio() {
                         <>
                             <h3 className='info__titulo'>Datos:</h3>
                             <ul className='info__lista'>
+                                <li className='info__item foto'><img src={socio.fotoBase64}/></li>
                                 <li className='info__item'>Nombres: {socio.nombres}</li>
                                 <li className='info__item'>Grado: {socio.grado}</li>
                                 <li className='info__item'>Fuerza: {socio.fuerza}</li>

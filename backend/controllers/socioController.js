@@ -1,5 +1,7 @@
 const socioModel = require('../models/socioModel');
 const path = require('path');
+const { descargarFoto } = require('../config/ftp.js')
+
 const fs = require('fs');
 
 const socioController = {
@@ -12,24 +14,36 @@ const socioController = {
 
             if (!respuesta) {
                 return res.status(404).json({ message: 'Datos no encontrados' });
-            }
-
-            if (respuesta.foto) {
-                const nombreFoto = respuesta.foto.split('\\').pop().trim();
-                const rutaDirectorio = '\\\\192.168.0.205\\Public\\FOTOS_SOCIOS'; // Ruta del directorio
-                const rutaFoto = path.join(rutaDirectorio, nombreFoto);
-
-                console.log('Ruta de foto a verificar:', rutaFoto); // Para depuración
-
-                try {
-                    await fs.promises.access(rutaFoto, fs.constants.F_OK);
-                    respuesta.foto = `${req.protocol}://${req.get('host')}/api/socio/foto/${encodeURIComponent(nombreFoto)}`;
-                } catch (err) {
-                    console.error('Foto no encontrada:', rutaFoto);
-                    respuesta.foto = '/path/to/default/image.png'; // Cambia esto por tu imagen predeterminada
-                }
             } else {
-                respuesta.foto = '/path/to/default/image.png'; // Cambia esto por tu imagen predeterminada
+
+                const nombreFoto = respuesta.foto.split('\\').pop().trim();
+                console.log('Nombre Foto: ', nombreFoto);
+                if (nombreFoto === '') {
+                    return res.status(200).json(respuesta);
+                } else {
+                    // Usamos la ruta absoluta para el destino de la descarga, incluyendo el nombre del archivo
+                    const rutaDestino = path.join(__dirname, '../fotos', nombreFoto);  // Concatenar el nombre del archivo al directorio de destino // Concatenar nombreFoto a la ruta destino                // Descargar el archivo al directorio local
+                    console.log(rutaDestino);
+                    try {
+                        // Intentar descargar el archivo
+                        await descargarFoto('Public/FOTOS_SOCIOS', nombreFoto, rutaDestino);
+
+                        // Leer la imagen en base64 para enviar al frontend
+                        const imageBuffer = await fs.promises.readFile(rutaDestino); // Usamos promesas para leer el archivo
+                        const imageBase64 = imageBuffer.toString('base64');
+                        // Agregar la imagen al objeto socio
+                        respuesta.fotoBase64 = `data:image/jpeg;base64,${imageBase64}`;
+
+                        await fs.promises.unlink(rutaDestino); // Usamos la rutaDestino en lugar de localPath
+                    } catch (error) {
+                        // Si no se encuentra la imagen, logueamos el error pero continuamos
+                        if (error.code === 550) {
+                            console.log(`El archivo ${nombreFoto} no se encuentra en el servidor FTP. Continuando sin imagen.`);
+                        } 
+                    }
+                }
+
+
             }
 
             return res.status(200).json(respuesta);

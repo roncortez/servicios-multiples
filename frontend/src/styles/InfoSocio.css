@@ -24,15 +24,11 @@
 
 .mensaje-container__foto {
     width: 250px; /* Ancho fijo */
-    height: 250px; /* Alto fijo */
+    height: 300px; /* Alto fijo */
     object-fit: cover; /* Mantiene la proporción de la imagen */
     border-radius: 50%; /* Hace que la imagen sea circular */
     border: 5px solid #3498db; /* Cambia el color y grosor aquí */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para un efecto elegante */
-}
-
-.foto-item {
-    text-align: center;
 }
 
 .mensaje-container__logo {
@@ -53,10 +49,30 @@
 
 .mensaje-container__lista {
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
 }
 
 .mensaje-container__item {
     font-size: 24px; /* Tamaño del texto */
+    display: flex; /* Usamos flex para que el contenido se alinee */
+    align-items: center; /* Centra verticalmente */
+    margin-bottom: 10px; /* Espacio entre los elementos */
+}
+
+/* Aseguramos que el li que contiene la foto también esté centrado */
+.mensaje-container__item.foto-item {
+    display: flex;
+    justify-content: center; /* Centra la imagen dentro del li */
+    align-items: center; /* Alinea verticalmente */
+    text-align: center;
+    margin-bottom: 10px; /* Espacio entre los elementos */
+}
+.mensaje-container__item span{
+    width: 120px; /* Ancho fijo para el span */
+    font-weight: bold;
+    margin-right: 10px; /* Espacio entre el span y el texto */
+    text-align: left;
 }

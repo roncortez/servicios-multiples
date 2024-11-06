@@ -19,21 +19,20 @@ function InfoSocio() {
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
-                            {/*
-                            {(socio.foto === '' || socio.foto) && (
+                            
+                            {socio.fotoBase64 && (
                                 <>
                                     <img
                                         className='mensaje-container__foto'
-                                        src={socio.foto}
+                                        src={socio.fotoBase64}
                                     />
                                 </>
                             )}
-                                */}
+                            
                         </li>
-                        <li className='mensaje-container__item'>Nombres: {socio.nombres}</li>
-                        <li className='mensaje-container__item'>Fuerza: {socio.fuerza}</li>
-                        <li className='mensaje-container__item'>Grado: {socio.grado}</li>
-                        <li className='mensaje-container__item'>Edad: {socio.edad}</li>
+                        <li className='mensaje-container__item'><span>Nombres:</span> {socio.nombres}</li>
+                        <li className='mensaje-container__item'><span>Fuerza:</span> {socio.fuerza}</li>
+                        <li className='mensaje-container__item'><span>Grado:</span> {socio.grado}</li>
                     </ul>
 
                 </>

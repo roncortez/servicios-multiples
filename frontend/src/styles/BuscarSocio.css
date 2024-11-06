@@ -103,9 +103,29 @@
 .info__lista {
     list-style-type: none;
     padding: 0;
+    display: flex;
+        flex-direction: column; 
 
 }
 
 .info__item {
     font-size: 20px;
+    text-align: left;
+    
+}
+
+
+/* Asegura que la imagen esté centrada dentro del li */
+.info__item.foto {
+    display: flex;
+    justify-content: center;  /* Centra la imagen horizontalmente */
+    align-items: center;      /* Centra la imagen verticalmente */
+    text-align: center;       /* Asegura que el texto esté centrado si hay texto */
+}
+
+.info__item img {
+    border-radius: 50%;
+    width: 150px;
+    height: 200px;  /* Ajusta el tamaño de la imagen */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
 }
