@@ -23,8 +23,8 @@
 }
 
 .mensaje-container__foto {
-    width: 250px; /* Ancho fijo */
-    height: 300px; /* Alto fijo */
+    width: 200px; /* Ancho fijo */
+    height: 250px; /* Alto fijo */
     object-fit: cover; /* Mantiene la proporción de la imagen */
     border-radius: 50%; /* Hace que la imagen sea circular */
     border: 5px solid #3498db; /* Cambia el color y grosor aquí */
