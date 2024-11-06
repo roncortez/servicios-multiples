@@ -25,8 +25,8 @@ const socioModel = {
             } else if (campo === 'faf') {
                 // Buscar por FAF
                 respuesta = await pool.request()
-                    .input('num_poliza', sql.VarChar, datoConsulta)
-                    .query('SELECT * FROM socios WHERE num_poliza = @num_poliza');
+                    .input('num_poliza', sql.VarChar,`%${datoConsulta}`)
+                    .query('SELECT * FROM socios WHERE num_poliza LIKE @num_poliza');
                 return respuesta.recordset[0];
 
             } else if (campo === 'nombres') {
