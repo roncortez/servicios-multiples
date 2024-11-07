@@ -19,7 +19,7 @@ function InfoSocio() {
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
-                            
+                           
                             {socio.fotoBase64 && (
                                 <>
                                     <img

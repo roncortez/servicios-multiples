@@ -23,7 +23,6 @@ app.use(cors({
   allowedHeaders: 'Content-Type,Authorization'
 }));
 
-app.use('/fotos', express.static(path.join(os.tmpdir(), 'fotos')));
 app.use(express.json()); // Asegúrate de tener esto para que Express pueda analizar el cuerpo JSON
 app.use('/api', socioRouter);
 

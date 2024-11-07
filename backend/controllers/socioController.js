@@ -27,10 +27,11 @@ const socioController = {
                     console.log(rutaDestino);
                     try {
                         // Intentar descargar el archivo
-                        await descargarFoto('Public/FOTOS_SOCIOS', nombreFoto, rutaDestino);
 
                         // Leer la imagen en base64 para enviar al frontend
-                        const imageBuffer = await fs.promises.readFile(rutaDestino); // Usamos promesas para leer el archivo
+                        //const imageBuffer = await fs.promises.readFile(rutaDestino); // Usamos promesas para leer el archivo
+                        
+                        const imageBuffer = await descargarFoto('Public/FOTOS_SOCIOS', nombreFoto, rutaDestino);
                         const imageBase64 = imageBuffer.toString('base64');
                         // Agregar la imagen al objeto socio
                         respuesta.fotoBase64 = `data:image/jpeg;base64,${imageBase64}`;

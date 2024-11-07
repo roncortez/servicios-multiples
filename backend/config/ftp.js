@@ -4,13 +4,15 @@
 const ftp = require('basic-ftp');
 const client = new ftp.Client();
 const path = require('path');
+
+const fs = require('fs')
 // client.ftp.verbose = true; //Activa mensajes de log
 
 async function connectFTP() {
 
     try {
         await client.access({
-            host: '192.168.0.205',
+            host: '186.3.35.74',
             user: 'PUBLICO',
             password: 'QNAP1234',
             secure: false
@@ -32,10 +34,24 @@ async function descargarFoto(directorio, nombreArchivo, rutaDestino) {
     try {
         await client.cd(directorio);
         console.log(`Cambiado al directorio: ${directorio}`);
-        
+
         // Descargar el archivo al directorio local
-        await client.downloadTo(rutaDestino, nombreArchivo);
-        console.log(`Archivo ${nombreArchivo} descargado exitosamente a ${rutaDestino}`);
+        //await client.downloadTo(rutaDestino, nombreArchivo);
+        // Descargar el archivo en un buffer directamente
+        // Descargar el archivo directamente a la ruta de destino
+        const stream = await client.downloadTo(rutaDestino, nombreArchivo);
+
+        // Leer el archivo descargado y convertirlo en buffer
+        const buffer = await fs.promises.readFile(rutaDestino);
+        console.log(`Archivo ${nombreArchivo} convertido a buffer`);
+
+        // Eliminar el archivo temporal
+        await fs.promises.unlink(rutaDestino);
+
+        return buffer;
+
+        console.log(`Archivo ${nombreArchivo} descargado exitosamente a memoria`);
+
     } catch (error) {
         // Verificar si el error es el tipo que indica que el archivo no existe
         if (error.code === 550) {
