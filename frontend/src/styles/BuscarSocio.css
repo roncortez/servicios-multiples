@@ -98,13 +98,14 @@
 
 .info__titulo {
     font-weight: bold;
+    text-align: center;
 }
 
 .info__lista {
     list-style-type: none;
     padding: 0;
     display: flex;
-        flex-direction: column; 
+    justify-content: space-evenly;
 
 }
 
@@ -114,13 +115,20 @@
     
 }
 
-
 /* Asegura que la imagen esté centrada dentro del li */
 .info__item.foto {
     display: flex;
     justify-content: center;  /* Centra la imagen horizontalmente */
     align-items: center;      /* Centra la imagen verticalmente */
     text-align: center;       /* Asegura que el texto esté centrado si hay texto */
+}
+
+.info__item.datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
 }
 
 .info__item img {

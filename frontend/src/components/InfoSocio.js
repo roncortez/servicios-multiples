@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import logo from '../assets/logo.png'
+import aerea from '../assets/aerea.png'
+import terrestre from '../assets/terrestre.png'
+import armada from '../assets/armada.png'
 import '../styles/InfoSocio.css'
 import { SocioContext } from '../context/SocioContext';
 
@@ -7,14 +10,39 @@ function InfoSocio() {
 
     const { socio, registro } = useContext(SocioContext);
 
+    const obtenerFuerza = (fuerza) => {
+        if (!socio) return '';
+
+        
+        return socio.id_fuerza === fuerza ? 'resaltada' : 'opacada';
+    };
+
     return (
         <div className='mensaje-container'>
             <div className='mensaje-container__titulo-container'>
                 <img className='mensaje-container__logo' src={logo}></img>
-                <h2 className='mensaje-container__nombre'>Círculo Militar</h2>
+                <h3 className='mensaje-container__nombre'>Círculo Militar</h3>
                 <h4 className='mensaje-container__slogan'>¡Mucho más que un buen club!</h4>
             </div>
-            <h1 className='mensaje-container__bienvenida'>¡Bienvenido!</h1>
+            <div className='mensaje-container__fuerzas'>
+                <img 
+                src={armada} 
+                alt='armada'
+                className={obtenerFuerza(2)}
+                />
+                <img 
+                src={terrestre} 
+                alt='terrestre'
+                className={obtenerFuerza(1)}
+                />
+                <img 
+                src={aerea} 
+                alt='aerea'
+                className={obtenerFuerza(3)}
+                />
+            
+            </div>
+            <h2 className='mensaje-container__bienvenida'>¡Bienvenido!</h2>
             {socio ? (
                 <>
                     <ul className='mensaje-container__lista'>
@@ -39,7 +67,7 @@ function InfoSocio() {
             ) : (
                 <h2 className='mensaje-container__titulo'>Esperando datos...</h2>
             )}
-            {registro && <h2>Su visita ha sido registrada</h2>}
+            {registro && <h3 className='mensaje-container__registro'>Su visita ha sido registrada</h3>}
         </div>
     );
 }

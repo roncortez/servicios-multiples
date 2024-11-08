@@ -12,7 +12,15 @@ const socioModel = {
                 // Buscar por cédula
                 respuesta = await pool.request()
                     .input('cedula', sql.VarChar, datoConsulta)
-                    .query('SELECT * FROM socios WHERE cedula = @cedula');
+                    .query(`
+                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        FROM socios
+                        WHERE cedula = @cedula
+                        UNION ALL
+                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        FROM dependientes
+                        WHERE cedula = @cedula          
+                    `);
                 return respuesta.recordset[0];
 
             } else if (campo === 'num_tarjeta') {
@@ -25,7 +33,7 @@ const socioModel = {
             } else if (campo === 'faf') {
                 // Buscar por FAF
                 respuesta = await pool.request()
-                    .input('num_poliza', sql.VarChar,`%${datoConsulta}`)
+                    .input('num_poliza', sql.VarChar, `%${datoConsulta}`)
                     .query('SELECT * FROM socios WHERE num_poliza LIKE @num_poliza');
                 return respuesta.recordset[0];
 
@@ -49,7 +57,7 @@ const socioModel = {
     registrarSocio: async (datos) => {
         const { id_socio, invitados } = datos;
 
-        try {  
+        try {
             const pool = await poolPromise;
             const respuesta = await pool.request()
                 .input('id_socio', sql.Int, id_socio)

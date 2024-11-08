@@ -35,6 +35,7 @@ function BuscarSocio() {
                 [campo]: datoConsulta // Usar el name del input como clave
             });
             setSocio(respuesta.data);
+            setCampoActivo('');
             setDatoConsulta('');
             setCargando(false); // Detener el cargando cuando la respuesta esté lista
         } catch (error) {
@@ -58,7 +59,14 @@ function BuscarSocio() {
     };
 
     const manejarCambio = (campo, datoConsulta) => {
-        setCampoActivo(campo);
+
+        if (datoConsulta === '') {
+            setCampoActivo('');
+            setError(false);
+            setCargando(false);
+        } else {
+            setCampoActivo(campo);
+        }
         setDatoConsulta(datoConsulta);
     };
 
@@ -138,67 +146,83 @@ function BuscarSocio() {
                         disabled={campoActivo && campoActivo !== 'nombres'}
                     />
 
-                    <label className='busqueda__label'>FAF:</label>
+                    <label className='busqueda__label'>F.A.F (Solo para socios):</label>
                     <input
                         className='busqueda__input'
                         name='faf'
                         value={campoActivo === 'faf' ? datoConsulta : ''}
                         onChange={(e) => manejarCambio('faf', e.target.value)}
                         disabled={campoActivo && campoActivo !== 'faf'}
-                        autoFocus
+                        maxLength={6}
                     />
 
                     {error && <p className='busqueda-form__error'>{error}</p>}
+
                     {/* Mensaje de Cargando */}
-                    {cargando && <p className="cargando">Cargando...</p>}
+                    {!error && cargando && <p className="cargando">Cargando...</p>}
 
                     <button className='busqueda__button busqueda__button--consultar' type='submit'>Consultar</button>
                     <button className='busqueda__button busqueda__button--borrar' type='button' onClick={borrarCampos}>Borrar</button>
                 </form>
                 <div className='info'>
-                    {cargando ? <p className="cargando">Cargando...</p> : (socio ?  
-                     <>
-                     <h3 className='info__titulo'>Datos:</h3>
-                     <ul className='info__lista'>
+                    {(!error && cargando) ? <p className="cargando">Cargando...</p> : (socio ?
+                        <>
+                            <h2 className='info__titulo'>DATOS</h2>
+                            <ul className='info__lista'>
+                                <div>
+                                    <li className='info__item foto'><img src={socio.fotoBase64} /></li>
+                                </div>
+                                <div className='info__item datos'>
+                                    <li className='info__item'>Nombres: {socio.nombres}</li>
+                                    <li className='info__item'>Grado: {socio.grado}</li>
+                                    <li className='info__item'>Fuerza: {socio.fuerza}</li>
+                                    <li className='info__item'>Edad: {socio.edad}</li>
+                                </div>
+                            </ul>
 
-                         <li className='info__item foto'><img src={socio.fotoBase64} /></li>
-                         <li className='info__item'>Nombres: {socio.nombres}</li>
-                         <li className='info__item'>Grado: {socio.grado}</li>
-                         <li className='info__item'>Fuerza: {socio.fuerza}</li>
-                         <li className='info__item'>Edad: {socio.edad}</li>
-                     </ul>
+                            <div className='busqueda__registro'>
+                                <button
+                                    className='busqueda__button busqueda__button--registrar'
+                                    type='submit'
+                                    onClick={registrarVisita}
+                                    disabled={registro}>
+                                    Registrar
+                                </button>
+                                <div className='busqueda__registro-invitados'>
+                                    <label>Nro. de invitados: </label>
+                                    <input
+                                        type='number'
+                                        value={invitados}
+                                        min='0'
+                                        max='6'
+                                        onChange={(e) => setInvitados(e.target.value)}
+                                        disabled={registro}
+                                    />
+                                </div>
+                            </div>
+                            {!error && cargando && <p className="cargando">Cargando...</p>}
+                            {registro &&
+                                <>
+                                    <p>Visita registrada</p>
+                                    <p>Número de acompañantes: {invitados} </p>
+                                </>
+                            }
+                        </> : (
+                            // Mostrar mensaje de error o esperando datos si no hay socio
+                            error ? (
+                                <p>{error}</p>
+                            ) : (
+                                <h2 className='mensaje-container__titulo'>Esperando datos...</h2>
+                            )
+                        )
 
-                     <div className='busqueda__registro'>
-                         <button
-                             className='busqueda__button busqueda__button--registrar'
-                             type='submit'
-                             onClick={registrarVisita}
-                             disabled={registro}>
-                             Registrar
-                         </button>
-                         <div className='busqueda__registro-invitados'>
-                             <label>Nro. de invitados: </label>
-                             <input
-                                 type='number'
-                                 value={invitados}
-                                 min='0'
-                                 max='10'
-                                 onChange={(e) => setInvitados(e.target.value)}
-                                 disabled={registro}
-                             />
-                         </div>
-                     </div>
-                     {cargando && <p className="cargando">Cargando...</p>}
-                     {registro &&
-                         <>
-                             <p>Visita registrada</p>
-                             <p>Número de acompañantes: {invitados} </p>
-                         </>
-                     }
-                 </> : <p>Esperando datos...</p>)}
 
-                  
-                
+
+
+                    )}
+
+
+
                 </div>
             </div>
         </div>
