@@ -174,9 +174,13 @@ function BuscarSocio() {
                                 </div>
                                 <div className='info__item datos'>
                                     <li className='info__item'>Nombres: {socio.nombres}</li>
-                                    <li className='info__item'>Grado: {socio.grado}</li>
-                                    <li className='info__item'>Fuerza: {socio.fuerza}</li>
                                     <li className='info__item'>Edad: {socio.edad}</li>
+                                    {socio.id_socio && 
+                                        <>
+                                        <li className='info__item'>Grado: {socio.grado}</li>
+                                        <li className='info__item'>Fuerza: {socio.fuerza}</li>
+                                        </>
+                                    }
                                 </div>
                             </ul>
 

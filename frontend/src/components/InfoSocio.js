@@ -13,7 +13,7 @@ function InfoSocio() {
     const obtenerFuerza = (fuerza) => {
         if (!socio) return '';
 
-        
+
         return socio.id_fuerza === fuerza ? 'resaltada' : 'opacada';
     };
 
@@ -25,29 +25,29 @@ function InfoSocio() {
                 <h4 className='mensaje-container__slogan'>¡Mucho más que un buen club!</h4>
             </div>
             <div className='mensaje-container__fuerzas'>
-                <img 
-                src={armada} 
-                alt='armada'
-                className={obtenerFuerza(2)}
+                <img
+                    src={armada}
+                    alt='armada'
+                    className={obtenerFuerza(2)}
                 />
-                <img 
-                src={terrestre} 
-                alt='terrestre'
-                className={obtenerFuerza(1)}
+                <img
+                    src={terrestre}
+                    alt='terrestre'
+                    className={obtenerFuerza(1)}
                 />
-                <img 
-                src={aerea} 
-                alt='aerea'
-                className={obtenerFuerza(3)}
+                <img
+                    src={aerea}
+                    alt='aerea'
+                    className={obtenerFuerza(3)}
                 />
-            
+
             </div>
             <h2 className='mensaje-container__bienvenida'>¡Bienvenido!</h2>
             {socio ? (
                 <>
                     <ul className='mensaje-container__lista'>
                         <li className='mensaje-container__item foto-item'>
-                           
+
                             {socio.fotoBase64 && (
                                 <>
                                     <img
@@ -56,11 +56,16 @@ function InfoSocio() {
                                     />
                                 </>
                             )}
-                            
+
                         </li>
                         <li className='mensaje-container__item'><span>Nombres:</span> {socio.nombres}</li>
-                        <li className='mensaje-container__item'><span>Fuerza:</span> {socio.fuerza}</li>
-                        <li className='mensaje-container__item'><span>Grado:</span> {socio.grado}</li>
+                        {socio.id_socio && 
+                            <>
+                            <li className='mensaje-container__item'><span>Fuerza:</span> {socio.fuerza}</li>
+                            <li className='mensaje-container__item'><span>Grado:</span> {socio.grado}</li>
+                            </>
+                        }
+                        
                     </ul>
 
                 </>

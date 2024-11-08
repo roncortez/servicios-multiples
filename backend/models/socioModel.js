@@ -13,11 +13,11 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('cedula', sql.VarChar, datoConsulta)
                     .query(`
-                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
                         FROM socios
                         WHERE cedula = @cedula
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
                         FROM dependientes
                         WHERE cedula = @cedula          
                     `);
@@ -28,13 +28,13 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('num_tarjeta', sql.VarChar, datoConsulta)
                     .query(`
-                         SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
                         FROM socios
                         WHERE num_tarjeta = @num_tarjeta
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
                         FROM dependientes
-                        WHERE num_tarjeta = @num_tarjeta   
+                        WHERE n_tarjeta = @num_tarjeta   
                     `);
                 return respuesta.recordset[0];
 
@@ -42,15 +42,7 @@ const socioModel = {
                 // Buscar por FAF
                 respuesta = await pool.request()
                     .input('num_poliza', sql.VarChar, `%${datoConsulta}`)
-                    .query(`
-                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
-                        FROM socios
-                        WHERE num_poliza = @num_poliza
-                        UNION ALL
-                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
-                        FROM dependientes
-                        WHERE num_poliza = @num_poliza   
-                   `);
+                    .query('SELECT * FROM socios WHERE num_poliza LIKE @num_poliza');
                 return respuesta.recordset[0];
 
             } else if (campo === 'nombres') {
@@ -58,11 +50,11 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('nombres', sql.VarChar, `%${datoConsulta}%`) // Agregar '%' para buscar coincidencias parciales
                     .query(`
-                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
                         FROM socios
                         WHERE nombres LIKE @nombres
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
                         FROM dependientes
                         WHERE nombres LIKE @nombres
                    `);
