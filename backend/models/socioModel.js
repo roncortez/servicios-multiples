@@ -27,21 +27,45 @@ const socioModel = {
                 // Buscar por número de tarjeta
                 respuesta = await pool.request()
                     .input('num_tarjeta', sql.VarChar, datoConsulta)
-                    .query('SELECT * FROM socios WHERE num_tarjeta = @num_tarjeta');
+                    .query(`
+                         SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        FROM socios
+                        WHERE num_tarjeta = @num_tarjeta
+                        UNION ALL
+                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        FROM dependientes
+                        WHERE num_tarjeta = @num_tarjeta   
+                    `);
                 return respuesta.recordset[0];
 
             } else if (campo === 'faf') {
                 // Buscar por FAF
                 respuesta = await pool.request()
                     .input('num_poliza', sql.VarChar, `%${datoConsulta}`)
-                    .query('SELECT * FROM socios WHERE num_poliza LIKE @num_poliza');
+                    .query(`
+                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        FROM socios
+                        WHERE num_poliza = @num_poliza
+                        UNION ALL
+                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        FROM dependientes
+                        WHERE num_poliza = @num_poliza   
+                   `);
                 return respuesta.recordset[0];
 
             } else if (campo === 'nombres') {
                 // Buscar por nombres (utilizando LIKE para permitir coincidencias parciales)
                 respuesta = await pool.request()
                     .input('nombres', sql.VarChar, `%${datoConsulta}%`) // Agregar '%' para buscar coincidencias parciales
-                    .query('SELECT * FROM socios WHERE nombres LIKE @nombres');
+                    .query(`
+                        SELECT 'Socio' AS tipo, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        FROM socios
+                        WHERE nombres LIKE @nombres
+                        UNION ALL
+                        SELECT 'Dependiente' AS tipo, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        FROM dependientes
+                        WHERE nombres LIKE @nombres
+                   `);
                 return respuesta.recordset[0];
             }
 
