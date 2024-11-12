@@ -1,3 +1,7 @@
+.registro {
+    padding: 20px;
+}
+
 .registro__titulo {
     display: flex;
     align-items: center;
@@ -51,7 +55,7 @@
 .busqueda__button {
     padding: 10px 20px; /* Espaciado interno */
     border: none; /* Sin borde */
-    width: 50%;
+    width: 200px;
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
     font-size: 16px; /* Tamaño de fuente */
@@ -62,13 +66,17 @@
 
 
 .busqueda__button--borrar {
-    background-color: #dc3545; /* Color rojo para indicar peligro o eliminación */
+    background-color: #dc3545; /* Rojo para indicar peligro o eliminación */
     color: white; /* Texto en blanco */
     border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado */
+    padding: 10px 20px; /* Espaciado alrededor del texto */
     border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    transition: background-color 0.3s; /* Transición suave al cambiar de color */
+    cursor: pointer; /* Cambia el cursor al pasar */
+    transition: background-color 0.3s; /* Transición suave */
+    display: block;
+    margin: 0 auto; /* Centra el botón horizontalmente */
+    font-size: 1em; /* Tamaño de fuente relativo */
+    height: 50px;
 }
 
 .busqueda__registro {

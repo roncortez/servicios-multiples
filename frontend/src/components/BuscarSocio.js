@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { SocioContext } from '../context/SocioContext';
+import GestionSocios from './GestionSocios';
 import '../styles/BuscarSocio.css';
 
 function BuscarSocio() {
@@ -133,11 +134,8 @@ function BuscarSocio() {
 
     return (
         <div className='registro'>
-            <div className='registro__titulo'>
-                <h2>Registro de acceso</h2>
-                <h3>Servicios Múltiples</h3>
-            </div>
             <div className='busqueda'>
+
                 <form className='busqueda__form' onSubmit={buscarDatos}>
                     <h3>Por favor coloque la tarjeta en el lector o ingrese la cédula</h3>
 
@@ -187,7 +185,6 @@ function BuscarSocio() {
                     {!error && cargando && <p className="cargando">Cargando...</p>}
 
                     <button className='busqueda__button busqueda__button--consultar' type='submit'>Consultar</button>
-                    <button className='busqueda__button busqueda__button--borrar' type='button' onClick={borrarCampos}>Borrar</button>
                 </form>
                 <div className='info'>
                     {!error && cargando ? <p className="cargando">Cargando...</p> : socio ? (
@@ -248,6 +245,7 @@ function BuscarSocio() {
                     )}
                 </div>
             </div>
+            <button className='busqueda__button busqueda__button--borrar' type='button' onClick={borrarCampos}>Borrar</button>
         </div>
     );
 }

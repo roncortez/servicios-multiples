@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-do
 import BuscarSocio from './components/BuscarSocio'
 import InfoSocio from './components/InfoSocio';
 import { SocioProvider } from './context/SocioContext';
+import GestionSocios from './components/GestionSocios';
 
 function App() {
   return (
     <SocioProvider>
       <Router>
         <Routes>
-          <Route path='/' element={<BuscarSocio />} />
+          <Route path='/' element={<GestionSocios />} />
           <Route path='/informacion' element={<InfoSocio />} />
         </Routes>
         
