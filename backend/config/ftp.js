@@ -12,7 +12,7 @@ async function connectFTP() {
 
     try {
         await client.access({
-            host: '192.168.0.205',
+            host: '192.168.0.220',
             user: 'PUBLICO',
             password: 'QNAP1234',
             secure: false

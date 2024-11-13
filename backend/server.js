@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.port || 10000;
 const socioRouter = require('./routes/socioRoutes');
+const reportRouter = require('./routes/reportRoutes');
 const path = require('path'); // Asegúrate de importar path
 const os = require('os'); 
 
@@ -25,6 +26,7 @@ app.use(cors({
 
 app.use(express.json()); // Asegúrate de tener esto para que Express pueda analizar el cuerpo JSON
 app.use('/api', socioRouter);
+app.use('/api', reportRouter);
 
 app.listen(port, () => {
     console.log('Servidor escuchando en port:', port);
