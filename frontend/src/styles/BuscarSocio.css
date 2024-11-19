@@ -1,147 +1,114 @@
-.registro {
-    padding: 20px;
+.search__container {
+
 }
 
-.registro__titulo {
+.search__section {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
-.registro__titulo h3 {
+.search__form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box; /* Esto asegura que el padding no afecte el tamaño total */
+}
+
+.search__form-section--register {
+    align-items: center;
+    display: flex;
+    padding: 10px;
+}
+
+.search__label {
+    font-weight: bold;
+}
+
+.search__label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.search__input {
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.search__input--number {
+    width: 30px;
+    margin-left: 10px;
+}
+
+.search__button {
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 40%;
+    margin: auto;
+    background-color: #12468a;
+    color: #ffffff;
+    border-radius: 12px; /* Bordes redondeados */
+}
+
+.search__button--delete {
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    background-color: #d81d08;
+    color: #ffffff;
+}
+
+.search__list {
+    list-style: none;
+    padding: 0;
     margin: 0;
 }
 
-.busqueda {
-    display: flex;
-    margin: 0 auto;
-    align-items: center;
-    justify-content: space-around;
+.search__item {
+    display: flex; /* Usamos flexbox para alinear la imagen y el texto en una fila */
+    align-items: center; /* Alinea verticalmente los elementos */
+    margin-bottom: 15px
 }
 
+.search__item-img {
+    width: 200px; /* Define el tamaño deseado de la imagen */
+    height: 250px; /* Mantener la proporción cuadrada */
+    object-fit: cover; /* Asegura que la imagen se recorte si es necesario para llenar el espacio */
+    border-radius: 50%; /* Para hacer la imagen circular */
+    margin-right: 10px; /* Agregar espacio entre la imagen y el texto */
+    border: 3px solid #ccc; /* Opcional: un borde alrededor de la imagen */
+}
 
-.busqueda__form {
+.search__data-section {
+    width: 50%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f7f7f7; /* Fondo suave */
-    width: 40%;
-    padding: 30px;
-    gap: 10px;
-    margin: 20px 20px;
-
-
-}
-
-.busqueda__form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    align-self: flex-start;
-}
-
-/* Estilos para los inputs */
-.busqueda__input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 20px;
 }
 
 
-.busqueda__button {
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    width: 200px;
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    font-size: 16px; /* Tamaño de fuente */
-    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
-    background-color: #133E87;
-    color: #FFFFFF;
+.search__data-text {
+    flex-grow: 1; /* El contenedor de texto ocupa el espacio restante */
 }
 
-
-.busqueda__button--borrar {
-    background-color: #dc3545; /* Rojo para indicar peligro o eliminación */
-    color: white; /* Texto en blanco */
-    border: none; /* Sin borde */
-    padding: 10px 20px; /* Espaciado alrededor del texto */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar */
-    transition: background-color 0.3s; /* Transición suave */
-    display: block;
-    margin: 0 auto; /* Centra el botón horizontalmente */
-    font-size: 1em; /* Tamaño de fuente relativo */
-    height: 50px;
-}
-
-.busqueda__registro {
+.search__text {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 30px;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
 }
 
-.busqueda__registro-invitados {
-    display: flex;
-    
-}
-
-.busqueda__registro-invitados input, .busqueda__registro-invitados label {
-    font-size: 17px;
-}
-
-.info {
-    background-color: #f7f7f7; /* Fondo suave */
-    padding: 20px;
-    width: 50%; 
-    margin: 0 20px;
-
-}
-
-.info__titulo {
+.search__text--warning {
+    font-size: 1.8rem;
     font-weight: bold;
+    color: #d81d08;
     text-align: center;
 }
 
-.info__lista {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-evenly;
-
+.search__data-img {
+    margin-right: 15px; /* Espacio entre la imagen y el texto */
 }
 
-.info__item {
-    font-size: 20px;
-    text-align: left;
-    
-}
-
-/* Asegura que la imagen esté centrada dentro del li */
-.info__item.foto {
-    display: flex;
-    justify-content: center;  /* Centra la imagen horizontalmente */
-    align-items: center;      /* Centra la imagen verticalmente */
-    text-align: center;       /* Asegura que el texto esté centrado si hay texto */
-}
-
-.info__item.datos {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 10px;
-}
-
-.info__item img {
-    border-radius: 50%;
-    width: 150px;
-    height: 200px;  /* Ajusta el tamaño de la imagen */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-}

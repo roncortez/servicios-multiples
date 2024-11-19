@@ -13,11 +13,11 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('cedula', sql.VarChar, datoConsulta)
                     .query(`
-                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, NULL AS iddep, cedula, nombres, fuerza, grado, edad, foto, id_fuerza, deuda_apo   
                         FROM socios
                         WHERE cedula = @cedula
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, iddep, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza, NULL AS deuda_apo
                         FROM dependientes
                         WHERE cedula = @cedula          
                     `);
@@ -28,11 +28,11 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('num_tarjeta', sql.VarChar, datoConsulta)
                     .query(`
-                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza, deuda_apo   
                         FROM socios
                         WHERE num_tarjeta = @num_tarjeta
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza, NULL AS deuda_apo 
                         FROM dependientes
                         WHERE n_tarjeta = @num_tarjeta   
                     `);
@@ -50,11 +50,11 @@ const socioModel = {
                 respuesta = await pool.request()
                     .input('nombres', sql.VarChar, `%${datoConsulta}%`) // Agregar '%' para buscar coincidencias parciales
                     .query(`
-                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza   
+                        SELECT 'Socio' AS tipo, id_socio, cedula, nombres, fuerza, grado, edad, foto, id_fuerza, deuda_apo   
                         FROM socios
                         WHERE nombres LIKE @nombres
                         UNION ALL
-                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza 
+                        SELECT 'Dependiente' AS tipo, NULL AS id_socio, cedula, nombres, NULL AS fuerza ,NULL AS grado , edad, NULL AS foto, NULL AS id_fuerza, NULL AS deuda_apo 
                         FROM dependientes
                         WHERE nombres LIKE @nombres
                    `);
@@ -71,15 +71,15 @@ const socioModel = {
     },
 
     registrarSocio: async (datos) => {
-        const { id_socio, invitados } = datos;
+        const { id_usuario, invitados } = datos;
 
         try {
             const pool = await poolPromise;
             const respuesta = await pool.request()
-                .input('id_socio', sql.Int, id_socio)
+                .input('id_usuario', sql.Int, id_usuario)
                 .input('invitados', sql.Int, invitados)
                 .query(`INSERT INTO Registros (id_socio, fecha_hora, invitados) VALUES 
-                    (@id_socio, GETDATE() , @invitados)`);
+                    (@id_usuario, GETDATE() , @invitados)`);
             return respuesta;
         } catch (error) {
             console.log('Error en el modelo al registrar socio:', error);

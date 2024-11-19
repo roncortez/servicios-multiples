@@ -94,13 +94,16 @@ function BuscarSocio() {
             setTimeoutId(id);
 
             if (socio) {
-                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/socio/registro`, {
-                    id_socio: socio.id_socio,
+
+                const payload = {
+                    id_usuario: socio.id_socio !== null ? socio.id_socio: socio.iddep,
                     invitados: invitados
-                });
+                }
+
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/socio/registro`, payload);
                 setRegistro(true);
-                 // Enfoca automáticamente el campo de cédula después de registrar
-                 if (cedulaRef.current) {
+                // Enfoca automáticamente el campo de cédula después de registrar
+                if (cedulaRef.current) {
                     cedulaRef.current.focus();
                 }
             } else {
@@ -111,143 +114,142 @@ function BuscarSocio() {
         }
     };
 
-    useEffect(() => {
-        if (socio && registrarButtonRef.current) {
-            registrarButtonRef.current.focus();
-        }
-    }, [socio]);
 
-    // Detectar tecla Enter para activar registro
-    useEffect(() => {
-        const handleEnterKey = (event) => {
-            if (event.key === 'Enter' && socio && !registro) {
-                registrarVisita(event);
-            }
-        };
-        
-        document.addEventListener('keydown', handleEnterKey);
-        
-        return () => {
-            document.removeEventListener('keydown', handleEnterKey);
-        };
-    }, [socio, registro]);
 
     return (
-        <div className='registro'>
-            <div className='busqueda'>
+        <div className='search__container'>
+            <div className='search__section'>
+                <form className='search__form-section' onSubmit={buscarDatos}>
+                    <h2 className='search__title'>POR FAVOR LLENE UNO DE LOS CAMPOS</h2>
 
-                <form className='busqueda__form' onSubmit={buscarDatos}>
-                    <h3>Por favor coloque la tarjeta en el lector o ingrese la cédula</h3>
-
-                    <label className='busqueda__label'>Tarjeta: </label>
+                    <label className='search__label'>Tarjeta:</label>
                     <input
-                        className='busqueda__input'
-                        name='num_tarjeta'
+                        className='search__input'
+                        name="num_tarjeta"
                         value={campoActivo === 'num_tarjeta' ? datoConsulta : ''}
                         onChange={(e) => manejarCambio('num_tarjeta', e.target.value)}
                         disabled={campoActivo && campoActivo !== 'num_tarjeta'}
                     />
 
-                    <label className='busqueda__label'>Cédula:</label>
+                    <label className='search__label'>Cédula:</label>
                     <input
-                        className='busqueda__input'
-                        ref={cedulaRef}  // Aquí asignamos la referencia
-                        name='cedula'
+                        className='search__input'
+                        name="cedula"
                         value={campoActivo === 'cedula' ? datoConsulta : ''}
                         onChange={(e) => manejarCambio('cedula', e.target.value)}
                         disabled={campoActivo && campoActivo !== 'cedula'}
                         minLength={10}
                         maxLength={10}
+                        autoFocus
                     />
 
-                    <label className='busqueda__label'>Nombres:</label>
+                    <label className='search__label'>Nombres:</label>
                     <input
-                        type='text'
-                        className='busqueda__input'
-                        name='nombres'
+                        className='search__input'
+                        type="text"
+                        name="nombres"
                         value={campoActivo === 'nombres' ? datoConsulta : ''}
                         onChange={(e) => manejarCambio('nombres', e.target.value)}
                         disabled={campoActivo && campoActivo !== 'nombres'}
                     />
 
-                    <label className='busqueda__label'>F.A.F (Solo para socios):</label>
+                    <label className='search__label'>F.A.F (Solo para socios):</label>
                     <input
-                        className='busqueda__input'
-                        name='faf'
+                        className='search__input'
+                        name="faf"
                         value={campoActivo === 'faf' ? datoConsulta : ''}
                         onChange={(e) => manejarCambio('faf', e.target.value)}
                         disabled={campoActivo && campoActivo !== 'faf'}
                         maxLength={6}
                     />
 
-                    {error && <p className='busqueda-form__error'>{error}</p>}
+                    {error && <p>{error}</p>}
+                    {!error && cargando && <p>Cargando...</p>}
 
-                    {!error && cargando && <p className="cargando">Cargando...</p>}
-
-                    <button className='busqueda__button busqueda__button--consultar' type='submit'>Consultar</button>
+                    <button className='search__button search__button--submit' type="submit">Consultar</button>
                 </form>
-                <div className='info'>
-                    {!error && cargando ? <p className="cargando">Cargando...</p> : socio ? (
-                        <>
-                            <h2 className='info__titulo'>DATOS</h2>
-                            <ul className='info__lista'>
-                                <div>
-                                    <li className='info__item foto'><img src={socio.fotoBase64} alt="Foto del socio" /></li>
-                                </div>
-                                <div className='info__item datos'>
-                                    <li className='info__item'>Nombres: {socio.nombres}</li>
-                                    <li className='info__item'>Edad: {socio.edad}</li>
-                                    {socio.id_socio && 
-                                        <>
-                                            <li className='info__item'>Grado: {socio.grado}</li>
-                                            <li className='info__item'>Fuerza: {socio.fuerza}</li>
-                                        </>
-                                    }
-                                </div>
-                            </ul>
-                            
-                            <form onSubmit={registrarVisita}>
-                                <div className='busqueda__registro'>
-                                    <button
-                                        className='busqueda__button busqueda__button--registrar'
-                                        type='submit'
-                                        disabled={registro}
-                                        ref={registrarButtonRef}>
-                                        Registrar
-                                    </button>
-                                    <div className='busqueda__registro-invitados'>
-                                        <label>Nro. de invitados: </label>
-                                        <input
-                                            type='number'
-                                            value={invitados}
-                                            min='0'
-                                            max='6'
-                                            onChange={(e) => setInvitados(e.target.value)}
-                                            disabled={registro}
-                                        />
+
+                {socio ? (
+                    <div className='search__data-section'>
+                        <h2 className='search__title'>DATOS</h2>
+                        <div>
+                            <ul className='search__list'>
+                                <li className='search__item'>
+                                    <div className='search__data-img'>
+                                        <img className='search__item-img' src={socio.fotoBase64} alt="Foto del socio" />
                                     </div>
-                                </div>
-                            </form>
-                            {!error && cargando && <p className="cargando">Cargando...</p>}
-                            {registro &&
+                                    <div className='search__data-text'>
+                                        <div className='search__text'>
+                                            <strong>Nombres</strong>
+                                            <span>{socio.nombres}</span>
+                                        </div>
+                                        <div className='search__text'>
+                                            <strong>Edad</strong>
+                                            <span>{socio.edad}</span>
+                                        </div>
+                                        {socio.id_socio && (
+                                            <>
+                                                <div className='search__text'>
+                                                    <strong>Grado</strong>
+                                                    <span>{socio.grado}</span>
+                                                </div>
+                                                <div className='search__text'>
+                                                    <strong>Fuerza</strong>
+                                                    <span>{socio.fuerza}</span>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>                           
+                                </li>
+                                { socio.deuda_apo != null && Number(socio.deuda_apo) > 0 && (
+                                        <div className='search__text search__text--warning'>Aportes pendientes</div>
+                                    )}
+                            </ul>
+
+                        </div>
+
+                        <form className='search__form-section search__form-section--register' onSubmit={registrarVisita}>
+                            <div>
+                                <label className='search__label search__label--number'>Nro. de invitados:</label>
+                                <input
+                                    className='search__input search__input--number'
+                                    type="number"
+                                    value={invitados}
+                                    min="0"
+                                    max="6"
+                                    onChange={(e) => setInvitados(e.target.value)}
+                                    disabled={registro}
+                                />
+                            </div>
+                            <button className='search__button search__button--submit' type="submit" disabled={registro} ref={registrarButtonRef}>
+                                Registrar
+                            </button>
+                        </form>
+
+                        <div>
+                            {registro && (
                                 <>
                                     <p>Visita registrada</p>
-                                    <p>Número de acompañantes: {invitados} </p>
+                                    <p>Número de invitados: {invitados}</p>
                                 </>
-                            }
-                        </>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    error ? (
+                        <p>{error}</p>
                     ) : (
-                        error ? (
-                            <p>{error}</p>
-                        ) : (
-                            <h2 className='mensaje-container__titulo'>Esperando datos...</h2>
-                        )
-                    )}
-                </div>
+                        <div className='search__data-section'>
+                            <h2>Esperando datos...</h2>
+                        </div>
+                    )
+                )}
             </div>
-            <button className='busqueda__button busqueda__button--borrar' type='button' onClick={borrarCampos}>Borrar</button>
+            <button className='search__button search__button--delete' type="button" onClick={borrarCampos}>Borrar</button>
+
         </div>
     );
+
 }
 
 export default BuscarSocio;

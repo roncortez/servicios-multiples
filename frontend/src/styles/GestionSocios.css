@@ -1,0 +1,32 @@
+.main-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container__title {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-container__title--heading{
+    margin: 0;
+}
+
+
+
+.main-container__tabs {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow: hidden;
+    justify-content: space-evenly;
+}
+
+.main-container__tabs button {
+    padding: 10px;
+    width: 100%;
+}
+

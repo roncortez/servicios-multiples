@@ -1,7 +1,44 @@
-.reportes__form{
+.report-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 20%;
+}
+
+.report__form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    border: 1px solid black;
     gap: 10px;
-    width: 10%;
-    margin: 0 auto;
+    padding: 20px;
+    margin: 20px 0;
+    font-size: 1.2rem;
+}
+
+.report__label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.report__input {
+    font-size: 1.2rem;
+}
+
+.report__button {
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 12px; /* Bordes redondeados */
+    cursor: pointer;
+}
+
+.report__button--submit {
+    background-color: #12468a;
+    color: #ffffff;
+}
+
+.report__button--delete {
+    background-color: #d81d08;
+    color: #ffffff;
 }
