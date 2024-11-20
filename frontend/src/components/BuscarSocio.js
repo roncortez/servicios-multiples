@@ -96,8 +96,9 @@ function BuscarSocio() {
             if (socio) {
 
                 const payload = {
-                    id_usuario: socio.id_socio !== null ? socio.id_socio: socio.iddep,
-                    invitados: invitados
+                    id_usuario: socio.id_socio !== null ? socio.id_socio : socio.iddep,
+                    invitados: invitados,
+                    deuda_aportes: socio.deuda_apo
                 }
 
                 await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/socio/registro`, payload);

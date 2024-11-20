@@ -13,29 +13,35 @@ const reportModel = {
                 .input('endDate', sql.Date, endDate)
                 .query(
                     `
-                SELECT 
-    S.nombres AS nombres, 
-    FORMAT(R.fecha_hora, 'yyyy-MM-dd') AS fecha, 
-    FORMAT(R.fecha_hora, 'HH:mm:ss') AS hora,  
-    R.invitados AS invitados,
-    'Socio' AS tipo
-FROM Registros AS R 
-INNER JOIN socios AS S
-    ON R.id_socio = S.id_socio
+                    SELECT 
+                    S.nombres AS nombres, 
+                    S.cedula AS cedula,
+                    'Socio' AS tipo,
+                    FORMAT(R.fecha_hora, 'yyyy-MM-dd') AS fecha, 
+                    FORMAT(R.fecha_hora, 'HH:mm:ss') AS hora,  
+                    R.deuda_aportes,
+                    R.invitados AS invitados
+                    FROM Registros AS R 
+                    INNER JOIN socios AS S
+                    ON R.id_socio = S.id_socio
+                    WHERE CONVERT(DATE, R.fecha_hora)  >= @startDate
+                    AND CONVERT (DATE, R.fecha_hora) <= @endDate
+                    
+                    UNION ALL
 
-UNION ALL
-
-SELECT 
-    D.nombres AS nombres, 
-    FORMAT(R.fecha_hora, 'yyyy-MM-dd') AS fecha, 
-    FORMAT(R.fecha_hora, 'HH:mm:ss') AS hora,  
-    R.invitados AS invitados,
-    'Dependiente' AS tipo
-FROM Registros AS R 
-INNER JOIN dependientes AS D
-    ON R.id_socio = D.iddep
-
-                   
+                    SELECT 
+                    D.nombres AS nombres,
+                    D.cedula AS cedula,
+                    'Dependiente' AS tipo,
+                    FORMAT(R.fecha_hora, 'yyyy-MM-dd') AS fecha, 
+                    FORMAT(R.fecha_hora, 'HH:mm:ss') AS hora,  
+                    NULL AS deuda_aportes,
+                    R.invitados AS invitados
+                    FROM Registros AS R 
+                    INNER JOIN dependientes AS D
+                    ON R.id_socio = D.iddep    
+                    WHERE CONVERT(DATE, R.fecha_hora)  >= @startDate
+                    AND CONVERT (DATE, R.fecha_hora) <= @endDate
                     `
                 )
             return result.recordset;
