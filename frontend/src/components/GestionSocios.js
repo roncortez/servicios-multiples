@@ -7,7 +7,7 @@ const GestionSocios = () => {
 
     const [activeTab, setActiveTab] = useState(0);
     const tabs = [
-        { label: 'Búsqueda', component: <BuscarSocio /> },
+        { label: 'Registro', component: <BuscarSocio /> },
         { label: 'Reportes', component: <Reportes /> }
     ]
 

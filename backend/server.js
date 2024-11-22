@@ -9,7 +9,9 @@ const os = require('os');
 
 const allowedOrigins = [
   'http://localhost:3000', // Desarrollo en localhost
-  'https://servicios-multiples-1pch.onrender.com' // Producción
+  'https://servicios-multiples-1pch.onrender.com', // Producción
+  'http://10.10.14.101:3000',
+  'http://10.10.14.128:3000'
 ];
 
 app.use(cors({
@@ -28,7 +30,7 @@ app.use(express.json()); // Asegúrate de tener esto para que Express pueda anal
 app.use('/api', socioRouter);
 app.use('/api', reportRouter);
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log('Servidor escuchando en port:', port);
 })
 
