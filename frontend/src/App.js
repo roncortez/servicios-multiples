@@ -1,23 +1,36 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { SocioProvider } from './context/SocioContext';
+import Sidebar from './components/common/Sidebar';
+
 import InfoSocio from './components/areas/ServiciosMultiples/InfoSocio';
 import GestionSocios from './components/areas/ServiciosMultiples/GestionSocios';
-import MainLayout from './components/layout/MainLayout';
-import Empleados from './components/areas/TalentoHumano/Empleados';
+
+
+import TalentoHumanoRoutes from './routes/TalentoHumanoRoutes';
+
+import './App.css';
 
 function App() {
+
+  const userRole = 'talentoHumano';
+
   return (
     <SocioProvider>
       <Router>
-        <Routes>
-          <Route path='/' element={<MainLayout/>}> 
-            <Route path='/servicios-multiples' element={<GestionSocios />} />
-            <Route path='/empleados' element={<Empleados />} />
-            <Route path='/informacion' element={<InfoSocio />} />
-          </Route>  
-        </Routes>
-      </Router>    
+        <div className="app">
+          {/* Sidebar fija */}
+          <Sidebar userRole={userRole} />
+          {/* Contenido principal */}
+          <div className="app__content">
+            <TalentoHumanoRoutes />
+            <Routes>
+              <Route path="/servicios-multiples" element={<GestionSocios />} />
+              <Route path="/informacion" element={<InfoSocio />} />
+            </Routes>
+          </div>
+        </div>
+      </Router>
     </SocioProvider>
   );
 }
