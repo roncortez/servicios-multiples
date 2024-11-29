@@ -10,7 +10,8 @@ export const menuConfig = {
     ],
     serviciosMultiples: [
         { path: 'servicios-multiples/registro', label: 'Gestión de Socios'}, 
-        { path: 'servicios-multiples/informacion', label: 'Mensaje'}       
+        { path: 'servicios-multiples/informacion', label: 'Mensaje'},       
+        { path: 'servicios-multiples/reportes', label: 'Reportes'}       
     ]
 
 

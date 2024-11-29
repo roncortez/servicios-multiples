@@ -3,7 +3,7 @@ const reportModel = require('../models/reportModel');
 const reportController = {
     getReport: async (req, res) => {
         //const { startDate, endDate } = req.body;
-
+            
         try {
             const result = await reportModel.getReport(req.body);
 
