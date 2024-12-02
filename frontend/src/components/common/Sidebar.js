@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { menuConfig } from '../config/menuConfig';
-import '../../styles/Sidebar.css'
+import '../../styles/Sidebar.css';
 
-function Sidebar( {userRole} ) {
-
-    const userMenu = menuConfig[userRole] || [];
+function Sidebar({ userRole }) {
+    const userMenu = menuConfig[userRole] || { displayName: 'Menú', items: [] };
 
     const [openMenu, setOpenMenu] = useState(null);
 
@@ -13,19 +12,20 @@ function Sidebar( {userRole} ) {
         setOpenMenu(openMenu === menuName ? null : menuName);
     };
 
-
     return (
         <div className='sidebar'>
-            <div>
-                <h2>{userRole}</h2>
+            <div className="sidebar-header">
+                <h2>{userMenu.displayName}</h2>
             </div>
-            {userMenu.map((item, index) => (
-                <Link key={index} to={item.path}>
-                    {item.label}
-                </Link>
-            ))}
+            <ul className="menu-list">
+                {userMenu.items.map((item, index) => (
+                    <li key={index} className="menu-item">
+                        <Link to={item.path}>{item.label}</Link>
+                    </li>
+                ))}
+            </ul>
         </div>
-    )
+    );
 }
 
 export default Sidebar;

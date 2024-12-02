@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // Login es componente hijo
 // No tiene acceso a la lógica de autenticación
 
 const Login = ({ onLoginSuccess }) => {
 
-    const [email, setEmail] = useState(null);
+    const [user, setUser] = useState(null);
     const [password, setPassword] = useState(null);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
-                email,
-                password         
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
+                user,
+                password
             });
 
-            const token = response.data;
-            console.log('Token recibido: ', token);
-            onLoginSuccess(token);
+            const token = response.data.token;
+            // Si la autenticación es exitosa, guarda el token
+            localStorage.setItem('authToken', token);
+            console.log(response.data.message); // "Autenticación exitosa"
+            navigate('/dashboard')
 
         } catch (error) {
             console.log('Error al enviar datos:', error);
@@ -28,18 +32,18 @@ const Login = ({ onLoginSuccess }) => {
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label>Correo electrónico</label>
-                <input 
-                    type='email'
-                    placeholder='Ingrese el correo'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                <label>Usuario</label>
+                <input
+                    type='text'
+                    placeholder='Ingrese el usuario'
+                    value={user}
+                    onChange={(e) => setUser(e.target.value)}
                     required
                 />
             </div>
             <div>
                 <label>Contraseña</label>
-                <input 
+                <input
                     type='password'
                     placeholder='Ingrese la contraseña'
                     value={password}
@@ -47,7 +51,6 @@ const Login = ({ onLoginSuccess }) => {
                     required
                 />
             </div>
-            <button>Olvidé mi contraseña</button>
             <button type='submit'>Ingresar</button>
         </form>
     )
