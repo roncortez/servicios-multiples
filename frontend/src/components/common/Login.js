@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { roleRoutes } from '../config/roleRoutes';
+
 // Login es componente hijo
 // No tiene acceso a la lógica de autenticación
 
@@ -21,8 +24,19 @@ const Login = ({ onLoginSuccess }) => {
             const token = response.data.token;
             // Si la autenticación es exitosa, guarda el token
             localStorage.setItem('authToken', token);
+
+            const decoded = jwtDecode(token);
+            const userRole = decoded.role;
+
+            const role = roleRoutes.find(role => role.roleId === userRole);
+
+            if (role) {
+                navigate(`/${role.routes[0].path}`)
+            }
+            
             console.log(response.data.message); // "Autenticación exitosa"
-            navigate('/dashboard')
+            
+
 
         } catch (error) {
             console.log('Error al enviar datos:', error);

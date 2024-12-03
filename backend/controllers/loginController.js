@@ -14,7 +14,7 @@ const loginController = {
 
             // Generar el token
             const token = jwt.sign(
-                { id: result.id, user: result.usuario }, // Información que quieres almacenar en el token
+                { id: result.id, user: result.usuario, role: result.rol_id }, // Información que quieres almacenar en el token
                 process.env.JWT_SECRET,                 // Llave secreta para firmar el token
                 { expiresIn: '1h' }                     // Tiempo de expiración del token
             );

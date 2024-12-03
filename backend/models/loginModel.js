@@ -43,7 +43,7 @@ const loginModel = {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
       const pool = await poolPromise;
-      const query = `INSERT INTO Users (usuario, clave, rol) VALUES (@user, @password, @role)`;
+      const query = `INSERT INTO Users (usuario, clave, rol_id) VALUES (@user, @password, @role)`;
 
       await pool
         .request()

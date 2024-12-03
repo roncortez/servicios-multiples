@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { SocioProvider } from './context/SocioContext';
-import { menuConfig } from './components/config/menuConfig';
 import Sidebar from './components/common/Sidebar';
 import Login from './components/common/Login';
 import Register from './components/common/Register';
@@ -28,14 +27,7 @@ function App() {
   };
 
 
-  // Función para obtener la ruta predeterminada
-  const getDefaultRoute = (role) => {
-    const roleConfig = menuConfig[role];
-    if (roleConfig && roleConfig.items.length > 0) {
-      return `/${roleConfig.items[0].path}`;
-    }
-    return '/unauthorized';
-  };
+
 
   return (
     <SocioProvider>
@@ -61,14 +53,13 @@ function App() {
                   {/* Ruta para acceso no autorizado */}
                   <Route path="/unauthorized" element={<h1>Acceso Denegado</h1>} />
                   {/* Ruta para manejar rutas inexistentes */}
-                  <Route path="*" element={<Navigate to={getDefaultRoute(userRole)} />} />
                 </Routes>
               </div>
             </>
           ) : (
             <Routes>
               <Route
-                path='/login'
+                path='/'
                 element={<Login onLoginSuccess={handleLoginSuccess} />}
               />
               <Route
