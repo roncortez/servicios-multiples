@@ -1,5 +1,5 @@
 const { poolPromise } = require('../config/db');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const sql = require('mssql');
 
 const loginModel = {
@@ -23,10 +23,9 @@ const loginModel = {
       const matchPassword = await bcrypt.compare(password, dbUser.clave);
 
       if (!matchPassword) {
-        console.log('Contraseña incorrecta');
+        console.log('Contraseña incorrecta'); // log
         return null;
       }
-
 
       return dbUser;
 

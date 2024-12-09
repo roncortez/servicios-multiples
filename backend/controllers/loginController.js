@@ -7,7 +7,7 @@ const loginController = {
         try {
             const { user, password } = req.body;
             const result = await loginModel.getCredentials({ user, password });
-
+            
             if (!result) {
                 return res.status(401).json({ message: 'Usuario o clave incorrectos' });
             }
@@ -46,6 +46,7 @@ const loginController = {
             const result = await loginModel.registerUser({ user, password, role });
 
             if (result) {
+                console.log('Usuario creado');
                 return res.status(201).json({ message: 'Usuario registrado exitosamente' });
             } else {
                 return res.status(400).json({ message: 'Error al registrar el usuario' });

@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../styles/Sidebar.css';
+import { roleRoutes } from '../config/roleRoutes';
+
 
 function Sidebar({ userRole }) {
     //const userMenu = roleRoutes.roleId[userRole] || { displayName: 'Menú', items: [] };
 
-    const [openMenu, setOpenMenu] = useState(null);
-
-    const toggleMenu = (menuName) => {
-        setOpenMenu(openMenu === menuName ? null : menuName);
-    };
+    const userRoutes = roleRoutes[userRole];
 
     return (
         <div className='sidebar'>
             <div className="sidebar-header">
-                <h2>h</h2>
+                <h2>{userRoutes.displayName}</h2>
+                {userRoutes.routes.map((route) => 
+                    <Link 
+                        to={route.path} 
+                        key={route.path}
+                    >
+                        {route.label}
+                    </Link>
+                )}
             </div>
 
         </div>

@@ -11,11 +11,10 @@ import ServiciosMultiplesRoutes from './routes/ServiciosMultiplesRoutes';
 import './App.css';
 
 function App() {
-
-  const userRole = '';
-
-  const handleLoginSuccess = (token) => {
-    console.log('Iniciar sesión con token: ', token);
+  const [userRole, setUserRole] = useState(null);
+  
+  const handleLoginSuccess = (role) => {
+    setUserRole(role); // Guarda el rol en el estado
   }
 
   const [user, setUser] = useState(null);
@@ -39,8 +38,9 @@ function App() {
               <Sidebar userRole={userRole} />
               {/* Contenido principal */}
               <div className="app__content">
+                
                 <Routes>
-                  {/* Rutas específicas de Talento Humano */}
+                  {/* Rutas específicas de Talento Humano */}    
                   <Route
                     path="/talento-humano/*"
                     element={<TalentoHumanoRoutes userRole={userRole} />}
@@ -59,13 +59,14 @@ function App() {
           ) : (
             <Routes>
               <Route
-                path='/'
+                path="/"
                 element={<Login onLoginSuccess={handleLoginSuccess} />}
               />
               <Route
-                path='/register'
+                path="/register"
                 element={<Register onRegisterSuccess={handleRegisterSuccess} />}
               />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           )}
         </div>

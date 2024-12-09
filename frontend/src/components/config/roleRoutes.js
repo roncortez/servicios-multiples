@@ -1,28 +1,24 @@
-
-export const roleRoutes = [
-    {
-        roleId: 1,
+export const roleRoutes = {
+    1: {
         displayName: 'Administrador',
         routes: [
-            { path: 'admin/dashboard', label: 'Dashboard' }
+            { path: 'dashboard', label: 'Dashboard' },
         ],
     },
-    {
-        roleId: 2,
+    2: {
         displayName: 'Talento Humano',
         routes: [
             { path: 'talento-humano/empleados', label: 'Empleados' },
-            { path: 'talento-humano/permisos', label: 'Permisos' },
-            { path: 'talento-humano/reportes', label: 'Reportes' },
+            { path: 'permisos', label: 'Permisos' },
+            { path: 'reportes', label: 'Reportes' },
         ],
     },
-    {
-        roleId: 3,
+    3: {
         displayName: 'Servicios Múltiples',
         routes: [
-            { path: 'servicios-multiples/registro', label: 'Gestión de Socios' },
-            { path: 'servicios-multiples/informacion', label: 'Mensaje' },
-            { path: 'servicios-multiples/reportes', label: 'Reportes' },
+            { path: 'registro', label: 'Gestión de Socios' },
+            { path: 'informacion', label: 'Mensaje' },
+            { path: 'reportes', label: 'Reportes' },
         ],
     },
-];
+};

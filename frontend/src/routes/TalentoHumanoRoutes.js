@@ -8,25 +8,25 @@ import ProtectedRoute from '../components/common/ProtectedRoute';
 const TalentoHumanoRoutes = ({ userRole }) => (
   <Routes>
     <Route
-      path="empleados"
+      path="talento-humano/empleados"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="talentoHumano">
+        <ProtectedRoute userRole={userRole}>
           <Empleados />
         </ProtectedRoute>
       }
     />
     <Route
-      path="permisos"
+      path="talento-humano/permisos"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="talentoHumano">
+        <ProtectedRoute userRole={userRole}>
           <Permisos />
         </ProtectedRoute>
       }
     />
     <Route
-      path="reportes"
+      path="talento-humano/reportes"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="talentoHumano">
+        <ProtectedRoute userRole={userRole}>
           <Reportes />
         </ProtectedRoute>
       }
