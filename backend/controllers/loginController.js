@@ -7,14 +7,17 @@ const loginController = {
         try {
             const { user, password } = req.body;
             const result = await loginModel.getCredentials({ user, password });
-            
+
             if (!result) {
                 return res.status(401).json({ message: 'Usuario o clave incorrectos' });
             }
 
             // Generar el token
             const token = jwt.sign(
-                { id: result.id, user: result.usuario, role: result.rol_id }, // Información que quieres almacenar en el token
+                {   id: result.id, 
+                    user: result.usuario, 
+                    role: result.rol_id 
+                }, // Información que quieres almacenar en el token
                 process.env.JWT_SECRET,                 // Llave secreta para firmar el token
                 { expiresIn: '1h' }                     // Tiempo de expiración del token
             );

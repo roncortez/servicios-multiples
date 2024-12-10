@@ -1,47 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Corrige la importación, no lleva llaves
 import { roleRoutes } from '../config/roleRoutes';
 
-// Login es componente hijo
-// No tiene acceso a la lógica de autenticación
-
-const Login = ({ onLoginSuccess }) => {
-
-    const [user, setUser] = useState(null);
-    const [password, setPassword] = useState(null);
+const Login = () => {
+    const [username, setUsername] = useState(''); // Cambiado de "user" a "username"
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
-                user,
+                user: username, // Usa "username" aquí
                 password
             });
 
             const token = response.data.token;
-            // Si la autenticación es exitosa, guarda el token
-            localStorage.setItem('authToken', token);
+            localStorage.setItem('authToken', token); // Guarda el token en localStorage
 
-            const decoded = jwtDecode(token);
-            const userRole = decoded.role;
+            const decoded = jwtDecode(token); // Decodifica el token
+            const user = {
+                user: decoded.user, // Suponiendo que "user" está en el token
+                role: decoded.role
+            };
 
-            const role = roleRoutes[userRole];
+            login(user);
 
+            const role = roleRoutes[user.role];
             if (role) {
-                onLoginSuccess(userRole);
-                navigate(`/${role.routes[0].path}`)
+                navigate(`${role.routes[0].path}`); // Redirige a la primera ruta del rol
             }
 
-            console.log(role.routes[0].path);
-            console.log(response.data.message); // "Autenticación exitosa"
-
-
-
+            console.log('Ruta inicial:', role.routes[0].path);
+            console.log('Mensaje:', response.data.message); // Mensaje de éxito
         } catch (error) {
-            console.log('Error al enviar datos:', error);
+            console.error('Error al iniciar sesión:', error);
         }
     };
 
@@ -55,8 +52,8 @@ const Login = ({ onLoginSuccess }) => {
                     <input
                         type='text'
                         placeholder='Ingrese el usuario'
-                        value={user}
-                        onChange={(e) => setUser(e.target.value)}
+                        value={username} // Cambiado a "username"
+                        onChange={(e) => setUsername(e.target.value)} // Cambiado a "setUsername"
                         required
                     />
                 </div>
@@ -73,7 +70,7 @@ const Login = ({ onLoginSuccess }) => {
                 <button type='submit'>Ingresar</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Login;
