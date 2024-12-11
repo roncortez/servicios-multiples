@@ -1,0 +1,23 @@
+.sidebar {
+    padding: 20px;
+}
+
+.sidebar__role {
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.sidebar__links {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.sidebar__link {
+    text-decoration: none;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+.sidebar__link:visited {
+    color: inherit;
+}

@@ -10,7 +10,7 @@ const ServiciosMultiplesRoutes = ({ userRole }) => (
     <Route
       path="registro"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="serviciosMultiples">
+        <ProtectedRoute userRole={userRole} allowedRole={3}>
           <GestionSocios />
         </ProtectedRoute>
       }
@@ -18,7 +18,7 @@ const ServiciosMultiplesRoutes = ({ userRole }) => (
     <Route
       path="informacion"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="serviciosMultiples">
+        <ProtectedRoute userRole={userRole} allowedRole={3}>
           <InfoSocio />
         </ProtectedRoute>
       }
@@ -26,7 +26,7 @@ const ServiciosMultiplesRoutes = ({ userRole }) => (
     <Route
       path="reportes"
       element={
-        <ProtectedRoute userRole={userRole} allowedRole="serviciosMultiples">
+        <ProtectedRoute userRole={userRole} allowedRole={3}>
           <Reportes />
         </ProtectedRoute>
       }

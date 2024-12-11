@@ -4,12 +4,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Corrige la importación, no lleva llaves
 import { roleRoutes } from '../config/roleRoutes';
+import '../../styles/common/Login.css'
 
 const Login = () => {
     const [username, setUsername] = useState(''); // Cambiado de "user" a "username"
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext);
+    const { login, logout } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +22,7 @@ const Login = () => {
 
             const token = response.data.token;
             localStorage.setItem('authToken', token); // Guarda el token en localStorage
-
+            
             const decoded = jwtDecode(token); // Decodifica el token
             const user = {
                 user: decoded.user, // Suponiendo que "user" está en el token
@@ -43,13 +44,14 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Círculo Militar</h2>
-            <h3>Mucho más que un buen club</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Usuario</label>
+        <div className='form-container'>
+            <h2 className='form-container__title'>Círculo Militar</h2>
+            <span className='form-container__subtitle'>¡Mucho más que un buen club!</span>
+            <form className='form' onSubmit={handleSubmit}>
+                <div className='form__group'>
+                    <label className='form__label'>Usuario</label>
                     <input
+                        className='form__input'
                         type='text'
                         placeholder='Ingrese el usuario'
                         value={username} // Cambiado a "username"
@@ -57,9 +59,10 @@ const Login = () => {
                         required
                     />
                 </div>
-                <div>
-                    <label>Contraseña</label>
+                <div className='form__group'>
+                    <label className='form__label'>Contraseña</label>
                     <input
+                        className='form__input'
                         type='password'
                         placeholder='Ingrese la contraseña'
                         value={password}
@@ -67,7 +70,12 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type='submit'>Ingresar</button>
+                <button 
+                    type='submit' 
+                    className='form__button'
+                >
+                    Ingresar
+                </button>
             </form>
         </div>
     );

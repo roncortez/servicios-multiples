@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/Sidebar.css';
 import { roleRoutes } from '../config/roleRoutes';
 import AuthContext from '../../context/AuthContext';
-
+import '../../styles/common/Sidebar.css'
 
 function Sidebar() {
 
@@ -13,18 +12,20 @@ function Sidebar() {
 
     return (
         <div className='sidebar'>
-            <div className="sidebar-header">
-                <h2>{userRoutes.displayName}</h2>
-                <h3>Bienvenido {user.user}</h3>
-                <button onClick={logout}>Cerrar sesión</button>
-                {userRoutes.routes.map((route) => 
-                    <Link 
-                        to={route.path} 
-                        key={route.path}
-                    >
-                        {route.label}
-                    </Link>
-                )}
+            <div className="sidebar__header">
+                <h3 className='sidebar__welcome'>Bienvenido {user.user}</h3>
+                <h2 className='sidebar__role'>{userRoutes.displayName}</h2>
+                <div className='sidebar__links'>
+                    {userRoutes.routes.map((route) =>
+                        <Link
+                            className='sidebar__link'
+                            to={route.path}
+                            key={route.path}
+                        >
+                            {route.label}
+                        </Link>
+                    )}
+                </div>
             </div>
 
         </div>
