@@ -8,7 +8,7 @@ import Login from './components/common/Login';
 import Register from './components/common/Register';
 import TalentoHumanoRoutes from './routes/TalentoHumanoRoutes';
 import ServiciosMultiplesRoutes from './routes/ServiciosMultiplesRoutes';
-
+import AdminRoutes from './routes/AdminRoutes';
 import './App.css';
 
 function App() {
@@ -27,6 +27,10 @@ function App() {
                 </div>
                 <div className="app__routes">
                   <Routes>
+                    <Route 
+                      path='/admin/*'
+                      element={<AdminRoutes userRole={user.role} />}
+                    />
                     <Route
                       path="/talento-humano/*"
                       element={<TalentoHumanoRoutes userRole={user.role} />}

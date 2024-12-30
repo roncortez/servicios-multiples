@@ -2,7 +2,7 @@ export const roleRoutes = {
     1: {
         displayName: 'Administrador',
         routes: [
-            { path: 'dashboard', label: 'Dashboard' },
+            { path: 'admin/dashboard', label: 'Dashboard' },
         ],
     },
     2: {
