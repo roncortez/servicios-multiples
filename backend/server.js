@@ -9,7 +9,7 @@ const port = process.env.PORT || 10000;
 const loginRouter = require('./routes/loginRoutes');
 const socioRouter = require('./routes/socioRoutes');
 const reportRouter = require('./routes/reportRoutes');
-const talentoHumanoReportRouter = require('./routes/talentoHumano/reports');
+const talentoHumanoRouter = require('./routes/talentoHumano/routes');
 
 // Configuración de CORS
 app.use(cors({
@@ -26,7 +26,8 @@ app.use('/api', loginRouter);
 app.use('/api', socioRouter);
 app.use('/api', reportRouter);
 app.use('/api', reportRouter);
-app.use('/api', talentoHumanoReportRouter);
+app.use('/api', talentoHumanoRouter);
+
 
 // Configurar frontend
 const reactBuildPath = path.join(__dirname, 'build');

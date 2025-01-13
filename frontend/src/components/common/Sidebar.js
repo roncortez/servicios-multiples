@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { roleRoutes } from '../config/roleRoutes';
 import AuthContext from '../../context/AuthContext';
-import '../../styles/common/Sidebar.css'
 
 function Sidebar() {
 
@@ -12,22 +11,24 @@ function Sidebar() {
 
     return (
         <div className='sidebar'>
-            <div className="sidebar__header">
-                <h3 className='sidebar__welcome'>Bienvenido {user.user}</h3>
-                <h2 className='sidebar__role'>{userRoutes.displayName}</h2>
-                <div className='sidebar__links'>
+            <div className="flex flex-col mx-4 mt-4">
+                <h3 className='text-xl font-bold'>Bienvenido {user.user}</h3>
+                <h2 className='text-lg mt-2'>{userRoutes.displayName}</h2>
+                <ul className='space-y-6 lg:space-y-3 border-l border-slate-100 mt-4'>
                     {userRoutes.routes.map((route) =>
-                        <Link
-                            className='sidebar__link'
+                        <NavLink
+                            className={({ isActive}) => 
+                                isActive 
+                                    ? 'block border-l pl-4 -ml-px text-blue-900 border-current font-semibold' 
+                                    : 'block border-l pl-4 -ml-px border-transparent hover:border-slate-400 hover:text-slate-900'} 
                             to={route.path}
                             key={route.path}
                         >
                             {route.label}
-                        </Link>
+                        </NavLink>
                     )}
-                </div>
+                </ul>
             </div>
-
         </div>
     );
 }
