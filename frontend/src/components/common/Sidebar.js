@@ -12,7 +12,7 @@ function Sidebar() {
     return (
         <div className='sidebar'>
             <div className="flex flex-col mx-4 mt-4">
-                <h3 className='text-xl font-bold'>Bienvenido {user.user}</h3>
+                <h3 className='text-xl font-bold'>Bienvenido</h3>
                 <h2 className='text-lg mt-2'>{userRoutes.displayName}</h2>
                 <ul className='space-y-6 lg:space-y-3 border-l border-slate-100 mt-4'>
                     {userRoutes.routes.map((route) =>

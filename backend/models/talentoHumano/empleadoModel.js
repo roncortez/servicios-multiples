@@ -4,7 +4,7 @@ const sql = require('mssql');
 const empleadoModel = {
 
     getEmpleados: async () => {
-        const query = "SELECT Nombre, Apellido, Cedula, Celular FROM Personal ORDER BY Nombre"
+        const query = "SELECT * FROM Personal ORDER BY Nombre"
         const pool = await poolPromise;
         const result = await pool.request().query(query);
 
