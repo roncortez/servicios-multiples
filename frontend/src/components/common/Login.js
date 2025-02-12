@@ -51,7 +51,7 @@ const Login = () => {
                 <div className='form__group'>
                     <label className='form__label'>Usuario</label>
                     <input
-                        className='form__input'
+                        className='p-2 border'
                         type='text'
                         placeholder='Ingrese el usuario'
                         value={username} // Cambiado a "username"
@@ -62,7 +62,7 @@ const Login = () => {
                 <div className='form__group'>
                     <label className='form__label'>Contraseña</label>
                     <input
-                        className='form__input'
+                        className='p-2 border'
                         type='password'
                         placeholder='Ingrese la contraseña'
                         value={password}

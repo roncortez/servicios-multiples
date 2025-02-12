@@ -125,7 +125,7 @@ const Reportes = () => {
               className={`w-full py-2 px-4 text-white rounded-md ${
                 downloading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-900 hover:bg-blue-600"
+                  : "bg-blue-900 hover:bg-blue-600 cursor-pointer"
               }`}
             >
             {downloading ? "Procesando..." : "Descargar"}

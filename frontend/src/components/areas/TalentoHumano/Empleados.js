@@ -29,9 +29,9 @@ const Empleados = () => {
                 
                 {empleados && empleados.map(empleado => (
                     <>
-                        <div className="py-2">{empleado.Nombre}</div>
-                        <div className="py-2">{empleado.Cedula}</div>
-                        <div className="py-2">{empleado.Celular}</div>
+                        <div className="py-2">{empleado.nombre}</div>
+                        <div className="py-2">{empleado.cedula}</div>
+                        <div className="py-2">{empleado.celular}</div>
                         <div><button>
                                 Editar
                             </button>

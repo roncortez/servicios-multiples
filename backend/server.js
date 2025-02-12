@@ -3,7 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const port = process.env.PORT || 10000;
+const port = process.env.PORT || 3001;
 
 // Importar rutas
 const loginRouter = require('./routes/loginRoutes');
@@ -13,7 +13,7 @@ const talentoHumanoRouter = require('./routes/talentoHumano/routes');
 
 // Configuración de CORS
 app.use(cors({
-    origin: '*',
+    origin: ['http://localhost:3000'],
     methods: 'GET, POST, PUT, DELETE',
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true
@@ -30,20 +30,19 @@ app.use('/api', talentoHumanoRouter);
 
 
 // Configurar frontend
-const reactBuildPath = path.join(__dirname, 'build');
-app.use(express.static(reactBuildPath));
+const reactBuildPath = "C:\\Users\\ronny.cortez\\Documents\\Proyectos\\servicios-multiples\\backend\\build";
+if (fs.existsSync(reactBuildPath)) {
+    app.use(express.static(reactBuildPath));
+    app.get('*', (req, res) => {
+        if (req.path.startsWith('/api')) {
+            return res.status(404).send('API route not found');
+        }
+        res.sendFile(path.join(reactBuildPath, 'index.html'));
+    });
+} else {
+    console.error('⚠️ ERROR: La carpeta "build" no hay en el backend.');
+}
 
-// Manejo de rutas no definidas en la API
-app.get('*', (req, res) => {
-    if (req.path.startsWith('/api')) {
-        return res.status(404).send('API route not found');
-    }
-    const indexPath = path.join(reactBuildPath, 'index.html');
-    if (!fs.existsSync(indexPath)) {
-        return res.status(500).send('Frontend build not found');
-    }
-    res.sendFile(indexPath);
-});
 
 // Iniciar servidor
 app.listen(port, '0.0.0.0', () => {
