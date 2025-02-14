@@ -5,6 +5,7 @@ function Permisos() {
     const [tipoPermiso, setTipoPermiso] = useState(null);
     const [tiempoPermiso, setTiempoPermiso] = useState(null);
     const [numeroPermiso, setNumeroPermiso] = useState(0);
+    const [permiso, setPermiso] = useState(null);
     const [diaPermiso, setDiaPermiso] = useState(null);
     const [horaSalida, setHoraSalida] = useState(null);
     const [horaIngreso, setHoraIngreso] = useState(null);
@@ -84,14 +85,14 @@ function Permisos() {
     const empleadosFiltrados = empleados.filter((empleado) =>
         empleado.nombre.toLowerCase().includes((busqueda ?? "").toLowerCase())
     );
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permiso`, {
                 id_empleado: empleado.id,
-                id_tipo_Permiso: tipoPermiso,
+                id_tipo_permiso: tipoPermiso,
                 dia_permiso: diaPermiso,
                 hora_salida: horaSalida,
                 hora_ingreso: horaIngreso,
@@ -101,12 +102,15 @@ function Permisos() {
                 total_dias: totalDias
             })
             alert("Permiso registrado correctamente");
+            console.log(response.data)
+            setPermiso(response.data);
+
         }
         catch (error) {
             console.log("Error al registrar el permiso:", error);
             alert("Error al registrar el permiso");
         }
-        
+
     };
 
     const handleSeleccionEmpleado = (empleado) => {
@@ -241,7 +245,7 @@ function Permisos() {
                                             type="time"
                                             value={horaSalida}
                                             onChange={(e) => setHoraSalida(e.target.value)}
-                                            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-36"  
+                                            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-36"
                                         />
                                     </label>
                                     <label className="flex flex-col">
@@ -250,7 +254,7 @@ function Permisos() {
                                             type="time"
                                             value={horaIngreso}
                                             onChange={(e) => setHoraIngreso(e.target.value)}
-                                            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-36"  
+                                            className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 w-36"
                                         />
                                     </label>
                                 </div>
@@ -300,6 +304,21 @@ function Permisos() {
                         Guardar
                     </button>
                 </form>
+                {permiso && (
+    <div className="mt-6 p-4 border rounded-lg shadow bg-gray-50">
+        <h2 className="text-xl font-semibold text-gray-700 mb-3">✅ Permiso Creado</h2>
+
+        <p><strong>Empleado ID:</strong> {permiso.id_empleado ?? "No disponible"}</p>
+        <p><strong>Tipo de Permiso:</strong> {permiso.id_tipo_permiso ?? "No disponible"}</p>
+
+        {permiso.hora_salida && <p><strong>Hora de Salida:</strong> {permiso.hora_salida}</p>}
+        {permiso.hora_ingreso && <p><strong>Hora de Ingreso:</strong> {permiso.hora_ingreso}</p>}
+        {permiso.total_horas && <p><strong>Total de Horas:</strong> {permiso.total_horas}</p>}
+
+    </div>
+)}
+
+                
             </div>
         </div>
     );
