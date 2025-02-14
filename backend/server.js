@@ -13,7 +13,7 @@ const talentoHumanoRouter = require('./routes/talentoHumano/routes');
 
 // Configuración de CORS
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: '*',
     methods: 'GET, POST, PUT, DELETE',
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true
@@ -30,7 +30,7 @@ app.use('/api', talentoHumanoRouter);
 
 
 // Configurar frontend
-const reactBuildPath = "C:\\Users\\ronny.cortez\\Documents\\Proyectos\\servicios-multiples\\backend\\build";
+const reactBuildPath = 'build';
 if (fs.existsSync(reactBuildPath)) {
     app.use(express.static(reactBuildPath));
     app.get('*', (req, res) => {

@@ -24,8 +24,8 @@
 }
 
 .mensaje-container__fuerzas img {
-    width: 90px; /* Ajusta el tamaño de las imágenes */
-    height: 90px;
+    max-width: 90px; /* Ajusta el tamaño de las imágenes */
+    max-height: 90px;
     transition: opacity 0.3s ease, transform 0.3s ease; /* Transición suave para cambios */
 }
 
@@ -46,8 +46,8 @@
 }
 
 .mensaje-container__foto {
-    width: 200px; /* Ancho fijo */
-    height: 250px; /* Alto fijo */
+    max-width: 200px; /* Ancho fijo */
+    max-height: 250px; /* Alto fijo */
     object-fit: cover; /* Mantiene la proporción de la imagen */
     border-radius: 50%; /* Hace que la imagen sea circular */
     border: 5px solid #3498db; /* Cambia el color y grosor aquí */
@@ -79,10 +79,7 @@
 }
 
 .mensaje-container__item {
-    font-size: 22px; /* Tamaño del texto */
-    display: flex; /* Usamos flex para que el contenido se alinee */
-    align-items: center; /* Centra verticalmente */
-    margin-bottom: 5px; /* Espacio entre los elementos */
+  
 }
 
 /* Aseguramos que el li que contiene la foto también esté centrado */

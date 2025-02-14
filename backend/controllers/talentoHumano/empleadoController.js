@@ -10,6 +10,11 @@ const empleadoController = {
         const data = req.body;
         const result = await empleadoModel.createPermiso(data);
         return res.json(result);
+    },
+
+    getPermisos: async(req, res) => {
+        const result = await empleadoModel.getPermisos();
+        return res.json(result);
     }
 }
 

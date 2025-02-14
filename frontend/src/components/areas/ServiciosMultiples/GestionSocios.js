@@ -14,8 +14,7 @@ const GestionSocios = () => {
     return (
         <div className='main-container'>
             <div className='main-container__title'>
-                <h2 className='main-container__title--heading'>Registro de acceso</h2>
-                <h3 className='main-container__title--subheading'>Servicios Múltiples</h3>
+                <h2 className='text-3xl font-bold'>Registro de acceso</h2>
             </div>
             <div className='main-container__tabs'>
                 {tabs.map((tab, index) =>

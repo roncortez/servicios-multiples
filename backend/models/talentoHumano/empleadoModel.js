@@ -14,7 +14,7 @@ const empleadoModel = {
     },
 
     createPermiso: async (data) => {
-        const {idEmpleado, idTipoPermiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
+        const {id_empleado, id_tipo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
             total_dias} = data
         try {
 
@@ -26,8 +26,8 @@ const empleadoModel = {
             const query = `
                 INSERT INTO Permisos 
                     (   
-                        idEmpleado, 
-                        idTipoPermiso, 
+                        id_empleado, 
+                        id_tipo_permiso, 
                         dia_permiso, 
                         hora_salida, 
                         hora_ingreso, 
@@ -38,8 +38,8 @@ const empleadoModel = {
                         fecha_creacion
                     )
                 VALUES (
-                        @idEmpleado, 
-                        @idTipoPermiso, 
+                        @id_empleado, 
+                        @id_tipo_permiso, 
                         @dia_permiso, 
                         @hora_salida, 
                         @hora_ingreso, 
@@ -55,8 +55,8 @@ const empleadoModel = {
 
        
             // Solo pasamos el idEmpleado como parámetro
-            request.input('idEmpleado', sql.Int, idEmpleado);
-            request.input('idTipoPermiso', sql.Int, idTipoPermiso);
+            request.input('id_empleado', sql.Int, id_empleado);
+            request.input('id_tipo_permiso', sql.Int, id_tipo_permiso);
             request.input('dia_permiso', sql.DateTime, dia_permiso);
             request.input('hora_salida', sql.VarChar, hora_salida);
             request.input('hora_ingreso', sql.VarChar, hora_ingreso);         
@@ -72,8 +72,25 @@ const empleadoModel = {
             console.error("Error al registrar permiso:", error);
             throw error;
         }
+    },
+
+    // Permisos
+    getPermisos: async() => {
+        try {
+            const query = 
+            `SELECT TOP 1 id
+            FROM Permisos ORDER BY id DESC`
+        
+            const pool = await poolCirmil;
+            const result = await pool.request().query(query);
+
+            return result.recordset[0].id + 1 ;
+
+
+        } catch (error) {
+            console.error("Error en el modelo", error);
+        }
     }
-    
 }
 
 module.exports = empleadoModel;

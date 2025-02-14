@@ -120,7 +120,7 @@ function BuscarSocio() {
         <div className='search__container'>
             <div className='search__section'>
                 <form className='search__form-section' onSubmit={buscarDatos}>
-                    <h2 className='search__title'>POR FAVOR LLENE UNO DE LOS CAMPOS</h2>
+                    <h2 className='font-semibold text-xl'>POR FAVOR LLENE UNO DE LOS CAMPOS</h2>
 
                     <label className='search__label'>Tarjeta:</label>
                     <input
@@ -208,11 +208,11 @@ function BuscarSocio() {
 
                         </div>
 
-                        <form className='search__form-section search__form-section--register' onSubmit={registrarVisita}>
-                            <div>
+                        <form className='w-full gap-5 flex flex-col items-center justify-center' onSubmit={registrarVisita}>
+                            <div className='flex gap-2'>
                                 <label className='search__label search__label--number'>Nro. de invitados:</label>
                                 <input
-                                    className='search__input search__input--number'
+                                    className='w-[50px] text-center'
                                     type="number"
                                     value={invitados}
                                     min="0"
@@ -228,10 +228,10 @@ function BuscarSocio() {
 
                         <div>
                             {registro && (
-                                <>
+                                <div>
                                     <p>Visita registrada</p>
                                     <p>Número de invitados: {invitados}</p>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>

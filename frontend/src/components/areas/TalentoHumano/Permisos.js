@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 function Permisos() {
     const [tipoPermiso, setTipoPermiso] = useState(null);
     const [tiempoPermiso, setTiempoPermiso] = useState(null);
+    const [numeroPermiso, setNumeroPermiso] = useState(0);
     const [diaPermiso, setDiaPermiso] = useState(null);
     const [horaSalida, setHoraSalida] = useState(null);
     const [horaIngreso, setHoraIngreso] = useState(null);
@@ -28,6 +29,21 @@ function Permisos() {
             }
         };
         fetchEmpleados();
+    }, []);
+
+    useEffect(() => {
+        const obtenerNumeroPermiso = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permisos`,
+                    { responseType: 'text' }
+                );
+                setNumeroPermiso(response.data);
+            } catch (error) {
+                console.error("Error al obtener empleados:", error);
+            }
+        };
+        obtenerNumeroPermiso();
     }, []);
 
     useEffect(() => {
@@ -74,8 +90,8 @@ function Permisos() {
         e.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permiso`, {
-                idEmpleado: empleado.id,
-                idTipoPermiso: tipoPermiso,
+                id_empleado: empleado.id,
+                id_tipo_Permiso: tipoPermiso,
                 dia_permiso: diaPermiso,
                 hora_salida: horaSalida,
                 hora_ingreso: horaIngreso,
@@ -107,9 +123,12 @@ function Permisos() {
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-8 shadow-lg rounded-xl max-w-xl w-full overflow-y-auto">
-                <h1 className="text-3xl font-bold text-gray-700 mb-6 text-center">Crear</h1>
+                <h1 className="text-3xl font-bold text-gray-700 mb-6 text-center">Solicitud</h1>
                 <form onSubmit={handleSubmit}>
                     {/* Campo de Búsqueda */}
+                    <div className="w-full text-right text-xl text-red-500 font-semibold">
+                        {numeroPermiso}
+                    </div>
                     <div className="relative mb-6">
                         <label className="block text-lg font-bold text-gray-600 mb-2">
                             Empleado

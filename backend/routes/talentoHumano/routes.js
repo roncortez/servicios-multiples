@@ -9,6 +9,9 @@ router.get('/talento-humano/empleados', empleadoController.getEmpleados)
 // Reportes
 router.post('/talento-humano/report', reportController.getReport);
 
+
+// Permisos
 router.post('/talento-humano/permiso', empleadoController.createPermiso);
+router.get('/talento-humano/permisos', empleadoController.getPermisos);
 
 module.exports = router;
