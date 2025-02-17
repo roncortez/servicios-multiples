@@ -39,6 +39,10 @@ function App() {
                       path="/servicios-multiples/*"
                       element={<ServiciosMultiplesRoutes userRole={user.role} />}
                     />
+                    <Route
+                      path="/general/*"
+                      element={<GeneralRoutes userRole={user.role} />}
+                    />
                     <Route path="/unauthorized" element={<h1>Acceso Denegado</h1>} />
                   </Routes>
                 </div>

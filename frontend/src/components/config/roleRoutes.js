@@ -24,7 +24,7 @@ export const roleRoutes = {
     4: {
         displayName: 'Usuario',
         routes: [
-            { path: 'general/permisos', label: 'Permiso'}
+            { path: 'general/permisos', label: 'Permisos' }
         ]
     }
 };
