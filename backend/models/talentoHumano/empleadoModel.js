@@ -1,11 +1,13 @@
-const { poolPromise: poolLat } = require('../../config/dbLat');
 const { poolPromise: poolCirmil } = require('../../config/db');
-
+const dayjs = require('dayjs');
+require('dayjs/locale/es');
+dayjs.locale('es');
 const sql = require('mssql');
 
 const empleadoModel = {
 
     getEmpleados: async () => {
+
         const query = "SELECT * FROM Empleados ORDER BY Nombre"
         const pool = await poolCirmil;
         const result = await pool.request().query(query);
@@ -14,9 +16,10 @@ const empleadoModel = {
     },
 
 
-    // Permisos
+    /* PERMISOS */
 
     createPermiso: async (data) => {
+
         const {id_empleado, id_tipo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
             total_dias} = data
         try {
@@ -87,6 +90,7 @@ const empleadoModel = {
                 P.id,
                 E.nombre AS empleado,
                 TP.nombre AS tipo,
+                P.dia_permiso,
                 P.hora_salida,
                 P.hora_ingreso,
                 P.total_horas,
@@ -100,11 +104,15 @@ const empleadoModel = {
                 ON P.id_tipo_permiso = TP.id
                 WHERE P.id = @idPermiso`
             const pool = await poolCirmil;
-            const result = await pool.request()
+            const permiso = await pool.request()
                 .input("idPermiso", sql.Int, id)
                 .query(query);
 
-            return result.recordset[0];
+            let result = permiso.recordset[0];
+
+            result.dia_permiso = dayjs(result.dia_permiso).format('dddd, DD MMMM YYYY');
+            
+            return result;
         } catch (error) {
             console.error("Error en el modelo: ", error)
         }    
@@ -112,9 +120,10 @@ const empleadoModel = {
 
     obtenerUltimoPermiso: async() => {
         try {
+
             const query = 
-            `SELECT TOP 1 id
-            FROM Permisos ORDER BY id DESC`
+                `SELECT TOP 1 id
+                FROM Permisos ORDER BY id DESC`
         
             const pool = await poolCirmil;
             const result = await pool.request().query(query);
@@ -124,6 +133,47 @@ const empleadoModel = {
 
         } catch (error) {
             console.error("Error en el modelo", error);
+        }
+    },
+
+    obtenerPermisos: async() => {
+        try {
+
+            const query = 
+                `
+                SELECT 
+                P.id,
+                E.nombre AS empleado,
+                TP.nombre AS tipo,
+                P.dia_permiso,
+                P.hora_salida,
+                P.hora_ingreso,
+                P.total_horas,
+                P.fecha_salida,
+                P.fecha_ingreso,
+                P.total_dias,
+                P.fecha_creacion
+                FROM Permisos AS P
+                INNER JOIN Empleados AS E 
+                ON P.id_empleado = E.id
+                INNER JOIN TipoPermiso AS TP
+                ON P.id_tipo_permiso = TP.id
+                `
+            const pool = await poolCirmil;
+            const result = await pool.request().query(query);
+            
+            return result.recordset.map(permiso => (
+                {
+                    ...permiso,
+                    dia_permiso: permiso.dia_permiso ? dayjs(permiso.dia_permiso).format('DD/MM/YYYY') : null,
+                    fecha_creacion: dayjs(permiso.fecha_creacion).format('DD/MM/YYYY HH:mm:ss')
+                }
+            ));
+
+
+        } catch (error) {
+
+            console.error("Error en el modelo: ", error);
         }
     }
 }

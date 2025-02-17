@@ -9,6 +9,7 @@ import Register from './components/common/Register';
 import TalentoHumanoRoutes from './routes/TalentoHumanoRoutes';
 import ServiciosMultiplesRoutes from './routes/ServiciosMultiplesRoutes';
 import AdminRoutes from './routes/AdminRoutes';
+import GeneralRoutes from './routes/GeneralRoutes';
 import './App.css';
 
 function App() {
