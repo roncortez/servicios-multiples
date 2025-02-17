@@ -21,25 +21,26 @@ const Solicitud = ({ permiso }) => {
 
         // Título de documento
         doc.setFontSize(14);
-        doc.text("Solicitud de permiso", anchoPagina / 2, 60, { align: "center" });
+        doc.text("SOLICITUD DE PERMISO", anchoPagina / 2, 60, { align: "center" });
 
         // Datos de la solicitud
-        doc.setFontSize(12);
+        doc.setFontSize(14);
         doc.setFont("helvetica", "normal");  // Activa negrita
         doc.setTextColor(255, 0, 0);
-        doc.text(`Nº: ${permiso.id}`, anchoPagina - 20, 80, { align: "right" });
+        doc.text(`Nº: ${permiso.id}`, anchoPagina - 20, 60, { align: "right" });
 
+        doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
         doc.setFont("helvetica", "bold");  // Activa negrita
-        doc.text("Nombre", margenIzquierdo, 90);
+        doc.text("APELLIDOS Y NOMBRES:", margenIzquierdo, 90);
         doc.setFont("helvetica", "normal");  // Activa negrita
         doc.text(permiso.empleado, margenIzquierdo, 100);
 
         doc.setFont("helvetica", "bold");  // Activa negrita
-        doc.text("Tipo",  margenIzquierdo, 120);
+        doc.text("TIPO:",  margenIzquierdo, 120);
 
         doc.setFont("helvetica", "normal");
-        doc.text(permiso.tipo, 20, 130);
+        doc.text((permiso.tipo).toUpperCase(), 20, 130);
         if(permiso.tipo === "Médico") {
             doc.setFontSize(10);
             doc.setTextColor(255, 0, 0);
@@ -49,17 +50,18 @@ const Solicitud = ({ permiso }) => {
         doc.setFontSize(12);
         doc.setTextColor(0, 0, 0);
         doc.setFont("helvetica", "bold");  // Activa negrita
-        doc.text("Duración",  margenIzquierdo, 150);
+        doc.text("DURACIÓN:",  margenIzquierdo, 150);
         doc.setFont("helvetica", "normal");  // Activa negrita
 
         if(permiso.total_horas) {
-            doc.text(`Hora de salida: ${permiso.hora_salida}`, margenIzquierdo, 160);
-            doc.text(`Hora de ingreso: ${permiso.hora_ingreso} `, margenIzquierdo, 170);
-            doc.text(`Total de horas: ${permiso.total_horas.toString()}`, margenIzquierdo, 180);
+            doc.text(`Día: ${permiso.dia_permiso}`, margenIzquierdo, 160);
+            doc.text(`Hora de salida: ${permiso.hora_salida}`, margenIzquierdo, 170);
+            doc.text(`Hora de ingreso: ${permiso.hora_ingreso} `, margenIzquierdo, 180);
+            doc.text(`Total de horas: ${permiso.total_horas.toString()}`, margenIzquierdo, 190);
 
         } else {
             doc.text(`Fecha de salida: ${permiso.fecha_salida}`,  margenIzquierdo, 160);
-            doc.text(`Fecha de ingreso: ${permiso.fecha_ingreso}`,  margenIzquierdo, 170);
+            doc.text(`Fecha de presentación: ${permiso.fecha_ingreso}`,  margenIzquierdo, 170);
             doc.text(`Total de días: ${permiso.total_dias.toString()}`,  margenIzquierdo, 180);
         }
 

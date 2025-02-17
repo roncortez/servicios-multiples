@@ -1,6 +1,6 @@
 import React from "react";
 import { jsPDF } from "jspdf";
-import logo from './logo.jpg'
+import logo from '../../assets/logo.jpg'
 
 const Solicitud = ({ permiso }) => {
     const generarPdf = () => {
@@ -18,6 +18,10 @@ const Solicitud = ({ permiso }) => {
         doc.setFont("helvetica", "bold");  // Activa negrita
         doc.text("Círculo Militar", anchoPagina / 2, 27, { align: "center" });
         doc.text("¡Mucho más que un buen club!", anchoPagina / 2, 32, { align: "center" });
+
+        doc.setDrawColor(70, 130, 180);
+        doc.setLineWidth(0.3);
+        doc.line(20, 40, anchoPagina-margenIzquierdo, 40);
 
         // Título de documento
         doc.setFontSize(14);
@@ -73,17 +77,29 @@ const Solicitud = ({ permiso }) => {
         const x2 = x1 + anchoFirma + espacioEntreFirmas;
         const x3 = x2 + anchoFirma + espacioEntreFirmas;
 
+        doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.5);
-        doc.line(x1, margenInferior, x1 + anchoFirma, margenInferior); // Firma 1
-        doc.line(x2, margenInferior, x2 + anchoFirma, margenInferior); // Firma 2
-        doc.line(x3, margenInferior, x3 + anchoFirma, margenInferior); // Firma 3
+        doc.line(x1, margenInferior-30, x1 + anchoFirma, margenInferior-30); // Firma 1
+        doc.line(x2, margenInferior-30, x2 + anchoFirma, margenInferior-30); // Firma 2
+        doc.line(x3, margenInferior-30, x3 + anchoFirma, margenInferior-30); // Firma 3
 
         doc.setFontSize(10);
-        doc.text("Trabajador", x1 + 15, margenInferior + 5);
-        doc.text("Jefe Inmediato", x2 + 15, margenInferior + 5);
-        doc.text("Talento Humano", x3 + 15, margenInferior + 5);
+        doc.text("Trabajador", x1 + 15, margenInferior-25);
+        doc.text("Jefe Inmediato", x2 + 15, margenInferior-25);
+        doc.text("Talento Humano", x3 + 15, margenInferior-25);
 
-        doc.save("solicitud.pdf");
+        doc.setDrawColor(70, 130, 180);
+        doc.setLineWidth(0.3);
+        doc.line(20, margenInferior-5, anchoPagina-margenIzquierdo, margenInferior-5);
+
+        doc.setFontSize(8);
+        doc.text("Círculo Militar", anchoPagina / 2, margenInferior, { align: "center" });
+        doc.text("¡Mucho más que un buen club!", anchoPagina / 2, margenInferior+4, { align: "center" });
+        doc.text("Av. Orellana E7-73 y Av. Diego de Almagro, Quito, Ecuador", anchoPagina / 2, margenInferior+8, { align: "center" });
+        doc.text("Tlf.: 022540200", anchoPagina / 2, margenInferior+12, { align: "center" });
+        doc.text("www.circulomilitar.ec", anchoPagina / 2, margenInferior+16, { align: "center" });
+
+        doc.save(`permiso_${permiso.id}.pdf`);
     };
 
     return (

@@ -14,9 +14,13 @@ const Solicitudes = () => {
         obtenerPermisos();
     }, [])
 
+    const manejarValidacion = () => {
+        
+    }
+
     return (
         <div className="text-xs border">
-            <div className="grid grid-cols-11 font-semibold p-2 border">
+            <div className="grid grid-cols-12 font-semibold p-2 border">
                 <div>Numero</div>
                 <div>Empleado</div>
                 <div>Tipo</div>
@@ -28,11 +32,12 @@ const Solicitudes = () => {
                 <div>Fecha de ingreso</div>
                 <div>Total de días</div>
                 <div>Fecha de creación</div>
+                <div>Estado</div>
             </div>
 
             {solicitudes && (solicitudes.map(solicitud =>
                 <div
-                    className="grid grid-cols-11 truncate p-2 border"
+                    className="grid grid-cols-12 p-2 border"
                     key={solicitud.id}
                 
                 >
@@ -47,10 +52,19 @@ const Solicitudes = () => {
                     <div>{solicitud.fecha_ingreso}</div>
                     <div>{solicitud.total_dias}</div>
                     <div>{solicitud.fecha_creacion}</div>
+                    {solicitud.estado == 0 ? (
+                        <div className="items-start flex flex-col gap-2">
+                            <button onClick={ ()=>{manejarValidacion(1)} }>VALIDAR</button>
+                            <button onClick={ ()=>{manejarValidacion(2)} }>ANULAR</button>
+                        </div>
+                        ) : solicitud.estado == 1 ? (
+                            <div>VALIDADO</div>
+                        ) : solicitud.estado == 2 ? (
+                            <div>ANULADO</div>
+                        ) : null
+                    }
                 </div>
-            )
-
-            )}
+            ))}
         </div>
     )
 }

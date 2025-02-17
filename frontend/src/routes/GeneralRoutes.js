@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom"
-import Permiso from '../components/areas/General/Permiso'
+import Permiso from '../components/common/Permiso';
 import ProtectedRoute from "../components/common/ProtectedRoute";
 
 

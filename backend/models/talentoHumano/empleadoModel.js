@@ -96,7 +96,8 @@ const empleadoModel = {
                 P.total_horas,
                 P.fecha_salida,
                 P.fecha_ingreso,
-                P.total_dias
+                P.total_dias,
+                P.estado
                 FROM Permisos AS P
                 INNER JOIN Empleados AS E 
                 ON P.id_empleado = E.id
@@ -152,7 +153,8 @@ const empleadoModel = {
                 P.fecha_salida,
                 P.fecha_ingreso,
                 P.total_dias,
-                P.fecha_creacion
+                P.fecha_creacion,
+                P.estado
                 FROM Permisos AS P
                 INNER JOIN Empleados AS E 
                 ON P.id_empleado = E.id
