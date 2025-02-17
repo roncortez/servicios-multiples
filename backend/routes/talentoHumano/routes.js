@@ -12,6 +12,8 @@ router.post('/talento-humano/report', reportController.getReport);
 
 // Permisos
 router.post('/talento-humano/permiso', empleadoController.createPermiso);
-router.get('/talento-humano/permisos', empleadoController.getPermisos);
+router.get('/talento-humano/permiso/:id', empleadoController.obtenerPermisoPorId)
+router.get('/talento-humano/ultimo-permiso', empleadoController.obtenerUltimoPermiso);
+
 
 module.exports = router;

@@ -12,8 +12,19 @@ const empleadoController = {
         return res.json(result);
     },
 
-    getPermisos: async(req, res) => {
-        const result = await empleadoModel.getPermisos();
+    obtenerPermisoPorId: async(req, res) => {
+        try {
+            const id = req.params.id;
+            const result = await empleadoModel.obtenerPermisoPorId(id);
+            return res.json(result);
+
+        } catch (error) {
+            console.error("Error en el controlador: ", error);
+        }      
+    },
+
+    obtenerUltimoPermiso: async(req, res) => {
+        const result = await empleadoModel.obtenerUltimoPermiso();
         return res.json(result);
     }
 }

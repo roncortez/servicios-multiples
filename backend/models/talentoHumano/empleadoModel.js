@@ -13,6 +13,9 @@ const empleadoModel = {
         return result.recordset;
     },
 
+
+    // Permisos
+
     createPermiso: async (data) => {
         const {id_empleado, id_tipo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
             total_dias} = data
@@ -37,6 +40,7 @@ const empleadoModel = {
                         total_dias,
                         fecha_creacion
                     )
+                OUTPUT INSERTED.*
                 VALUES (
                         @id_empleado, 
                         @id_tipo_permiso, 
@@ -66,16 +70,47 @@ const empleadoModel = {
             request.input('total_dias', sql.Decimal(18,0), total_dias);
 
 
-            await request.query(query);
-            return { message: "Permiso registrado correctamente" };
+            const result = await request.query(query);
+
+            return result.recordset[0];
+
         } catch (error) {
             console.error("Error al registrar permiso:", error);
             throw error;
         }
     },
 
-    // Permisos
-    getPermisos: async() => {
+    obtenerPermisoPorId : async(id) => {
+        try {
+            const query = `
+                SELECT 
+                P.id,
+                E.nombre AS empleado,
+                TP.nombre AS tipo,
+                P.hora_salida,
+                P.hora_ingreso,
+                P.total_horas,
+                P.fecha_salida,
+                P.fecha_ingreso,
+                P.total_dias
+                FROM Permisos AS P
+                INNER JOIN Empleados AS E 
+                ON P.id_empleado = E.id
+                INNER JOIN TipoPermiso AS TP
+                ON P.id_tipo_permiso = TP.id
+                WHERE P.id = @idPermiso`
+            const pool = await poolCirmil;
+            const result = await pool.request()
+                .input("idPermiso", sql.Int, id)
+                .query(query);
+
+            return result.recordset[0];
+        } catch (error) {
+            console.error("Error en el modelo: ", error)
+        }    
+    },
+
+    obtenerUltimoPermiso: async() => {
         try {
             const query = 
             `SELECT TOP 1 id

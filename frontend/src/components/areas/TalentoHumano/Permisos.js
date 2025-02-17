@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Solicitud from "./Solicitud";
 
 function Permisos() {
     const [tipoPermiso, setTipoPermiso] = useState(null);
@@ -32,16 +33,28 @@ function Permisos() {
         fetchEmpleados();
     }, []);
 
+    const obtenerNumeroPermiso = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/ultimo-permiso`,
+                { responseType: 'text' }
+            );
+            setNumeroPermiso(response.data);
+        } catch (error) {
+            console.error("Error al obtener el numero de permiso:", error);
+        }
+    };
+
     useEffect(() => {
         const obtenerNumeroPermiso = async () => {
             try {
                 const response = await axios.get(
-                    `${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permisos`,
+                    `${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/ultimo-permiso`,
                     { responseType: 'text' }
                 );
                 setNumeroPermiso(response.data);
             } catch (error) {
-                console.error("Error al obtener empleados:", error);
+                console.error("Error al obtener el numero de permiso:", error);
             }
         };
         obtenerNumeroPermiso();
@@ -70,6 +83,34 @@ function Permisos() {
             setTotalDias(dias);
         }
     }, [diaSalida, diaIngreso]);
+
+    useEffect(() => {
+        console.log("Tipo de permiso actualizado:", tipoPermiso);
+        console.log("Tiempo de permiso actualizado:", tiempoPermiso);
+     }, [tipoPermiso, tiempoPermiso]);
+     
+
+    const crearNuevoPermiso = () => {
+
+        // Obtener el siguiente número de permiso
+        obtenerNumeroPermiso();
+        setPermiso(null); // Resetear el permiso    
+        setTipoPermiso(null);
+        setTiempoPermiso(null);
+        setDiaPermiso(null);
+        setHoraSalida(null);
+        setHoraIngreso(null);
+        setDiaSalida(null);
+        setDiaIngreso(null);
+        setBusqueda("");
+        setMostrarLista(false);
+        setEmpleado(null);
+        setTotalHoras(null);
+        setTotalDias(null);
+        // Verificar que los estados se han actualizado
+        console.log("Tipo de permiso:", tipoPermiso);
+        console.log("Tiempo de permiso:", tiempoPermiso);
+    }
 
     const resetEstados = () => {
         setHoraSalida("");
@@ -102,9 +143,8 @@ function Permisos() {
                 total_dias: totalDias
             })
             alert("Permiso registrado correctamente");
-            console.log(response.data)
-            setPermiso(response.data);
-
+            const responsePermiso = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permiso/${response.data.id}`);
+            setPermiso(responsePermiso.data);
         }
         catch (error) {
             console.log("Error al registrar el permiso:", error);
@@ -126,14 +166,23 @@ function Permisos() {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
-            <div className="bg-white p-8 shadow-lg rounded-xl max-w-xl w-full overflow-y-auto">
-                <h1 className="text-3xl font-bold text-gray-700 mb-6 text-center">Solicitud</h1>
-                <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl max-w-xl w-full overflow-y-auto">
+                <div className="flex justify-between">
+                    <h1 className="text-3xl font-bold text-gray-700 text-center">Solicitud</h1>
+                    {permiso &&
+                        <button
+                            type="button"
+                            onClick={crearNuevoPermiso}
+                            className="text-3xl">
+                            📝
+                        </button>}
+                </div>
+                <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
                     {/* Campo de Búsqueda */}
-                    <div className="w-full text-right text-xl text-red-500 font-semibold">
+                    <div className="w-full text-xl text-red-500 font-semibold">
                         {numeroPermiso}
                     </div>
-                    <div className="relative mb-6">
+                    <div className="relative">
                         <label className="block text-lg font-bold text-gray-600 mb-2">
                             Empleado
                         </label>
@@ -169,7 +218,7 @@ function Permisos() {
                     </div>
 
                     {/* Tipo de Permiso */}
-                    <div className="mb-6">
+                    <div className="">
                         <h2 className="text-lg font-bold text-gray-600 mb-2">Tipo</h2>
                         <div className="flex items-center gap-4">
                             <label className="flex items-center gap-2">
@@ -177,6 +226,7 @@ function Permisos() {
                                     type="radio"
                                     value={1}
                                     name="tipoPermiso"
+                                    checked={tipoPermiso === "1"}
                                     onChange={(e) => setTipoPermiso(e.target.value)}
                                     className="accent-blue-500"
                                 />
@@ -187,6 +237,7 @@ function Permisos() {
                                     type="radio"
                                     value={2}
                                     name="tipoPermiso"
+                                    checked={tipoPermiso === "2"}
                                     onChange={(e) => setTipoPermiso(e.target.value)}
                                     className="accent-blue-500"
                                 />
@@ -201,13 +252,14 @@ function Permisos() {
                     </div>
 
                     {/* Duración del Permiso */}
-                    <div className="mb-6">
+                    <div className="">
                         <h2 className="text-lg font-bold text-gray-600 mb-2">Duración</h2>
                         <div className="flex items-center gap-4">
                             <label className="flex items-center gap-2">
                                 <input
                                     type="radio"
                                     name="tiempoPermiso"
+                                    checked={tiempoPermiso === "horas"}
                                     value="horas"
                                     onChange={(e) => handleTiempoPermisoChange(e.target.value)}
                                 />
@@ -217,6 +269,7 @@ function Permisos() {
                                 <input
                                     type="radio"
                                     name="tiempoPermiso"
+                                    checked={tiempoPermiso === "dias"}
                                     value="dias"
                                     onChange={(e) => handleTiempoPermisoChange(e.target.value)}
                                 />
@@ -268,7 +321,7 @@ function Permisos() {
 
                         {/* Días */}
                         {tiempoPermiso === "dias" && (
-                            <div className="flex flex-col mt-4 gap-4">
+                            <div className="flex flex-col mt-4 gap-2">
                                 <label className="flex flex-col">
                                     Desde
                                     <input
@@ -297,28 +350,19 @@ function Permisos() {
                     </div>
 
                     {/* Botón Guardar */}
+
                     <button
+                        disabled={permiso}
                         type="submit"
-                        className="w-full py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className={`w-full py-2 rounded-lg focus:outline-none focus:ring-2 transition-colors ${permiso ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-900 text-white hover:bg-blue-600'}`}
                     >
                         Guardar
                     </button>
                 </form>
                 {permiso && (
-    <div className="mt-6 p-4 border rounded-lg shadow bg-gray-50">
-        <h2 className="text-xl font-semibold text-gray-700 mb-3">✅ Permiso Creado</h2>
+                    <Solicitud permiso={permiso} />
+                )}
 
-        <p><strong>Empleado ID:</strong> {permiso.id_empleado ?? "No disponible"}</p>
-        <p><strong>Tipo de Permiso:</strong> {permiso.id_tipo_permiso ?? "No disponible"}</p>
-
-        {permiso.hora_salida && <p><strong>Hora de Salida:</strong> {permiso.hora_salida}</p>}
-        {permiso.hora_ingreso && <p><strong>Hora de Ingreso:</strong> {permiso.hora_ingreso}</p>}
-        {permiso.total_horas && <p><strong>Total de Horas:</strong> {permiso.total_horas}</p>}
-
-    </div>
-)}
-
-                
             </div>
         </div>
     );
