@@ -26,6 +26,15 @@ const empleadoController = {
     obtenerUltimoPermiso: async(req, res) => {
         const result = await empleadoModel.obtenerUltimoPermiso();
         return res.json(result);
+    },
+
+    obtenerPermisos: async(req, res) => {
+        try {
+            const result = await empleadoModel.obtenerPermisos();
+            return res.json(result);
+        } catch (error) {
+            console.error("Error en el controlador: ", error);
+        }
     }
 }
 

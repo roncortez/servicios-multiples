@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Empleados from '../components/areas/TalentoHumano/Empleados';
 import Permisos from '../components/areas/TalentoHumano/Permisos';
 import Reportes from '../components/areas/TalentoHumano/Reportes';
+import Solicitudes from '../components/areas/TalentoHumano/Solicitudes';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 
 const TalentoHumanoRoutes = ({ userRole }) => (
@@ -16,10 +17,18 @@ const TalentoHumanoRoutes = ({ userRole }) => (
       }
     />
     <Route
-      path="permisos"
+      path="permiso"
       element={
         <ProtectedRoute userRole={userRole} allowedRole={2}>
           <Permisos />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="solicitudes"
+      element={
+        <ProtectedRoute userRole={userRole} allowedRole={2}>
+          <Solicitudes />
         </ProtectedRoute>
       }
     />
