@@ -21,4 +21,10 @@ export const roleRoutes = {
             { path: 'servicios-multiples/reportes', label: 'Reportes' },
         ],
     },
+    4: {
+        displayName: 'Usuario',
+        routes: [
+            { path: 'general/permisos', label: 'Permiso'}
+        ]
+    }
 };
