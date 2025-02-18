@@ -18,7 +18,7 @@ const Header = () => {
                 </div>
             </div>
             <button 
-                className='header__logout-button'
+                className='bg-blue-900 text-white p-2 rounded-md hover:bg-blue-600'
                 onClick={logout}
             >
                 Cerrar sesión
