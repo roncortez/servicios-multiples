@@ -1,16 +1,16 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom"
-import Permiso from '../components/common/Permiso';
 import ProtectedRoute from "../components/common/ProtectedRoute";
+import Solicitud from "../components/common/Solicitud";
 
 
 const GeneralRoutes = ({ userRole }) => (
     <Routes>
         <Route
-            path="permisos"
+            path="permiso"
             element={
                 <ProtectedRoute userRole={userRole} allowedRole={4}>
-                    <Permiso />
+                    <Solicitud />
                 </ProtectedRoute>
             }
         >

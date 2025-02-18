@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Empleados from '../components/areas/TalentoHumano/Empleados';
-import Permiso from '../components/common/Permiso';
+import Solicitud from '../components/areas/TalentoHumano/Solicitud';
 import Reportes from '../components/areas/TalentoHumano/Reportes';
-import Solicitudes from '../components/areas/TalentoHumano/Solicitudes';
+import Permisos from '../components/areas/TalentoHumano/Permisos';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 
 const TalentoHumanoRoutes = ({ userRole }) => (
@@ -17,18 +17,18 @@ const TalentoHumanoRoutes = ({ userRole }) => (
       }
     />
     <Route
-      path="permiso"
+      path="solicitud"
       element={
         <ProtectedRoute userRole={userRole} allowedRole={2}>
-          <Permiso />
+          <Solicitud />
         </ProtectedRoute>
       }
     />
     <Route
-      path="solicitudes"
+      path="permisos"
       element={
         <ProtectedRoute userRole={userRole} allowedRole={2}>
-          <Solicitudes />
+          <Permisos />
         </ProtectedRoute>
       }
     />

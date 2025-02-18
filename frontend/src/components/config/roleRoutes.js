@@ -9,8 +9,8 @@ export const roleRoutes = {
         displayName: 'Talento Humano',
         routes: [
             { path: 'talento-humano/empleados', label: 'Empleados' },
-            { path: 'talento-humano/permiso', label: 'Permiso' },
-            { path: 'talento-humano/solicitudes', label: 'Solicitudes' },
+            { path: 'talento-humano/solicitud', label: 'Solicitud' },
+            { path: 'talento-humano/permisos', label: 'Permisos' },
             { path: 'talento-humano/reportes', label: 'Reportes' },
 
         ],
@@ -26,7 +26,7 @@ export const roleRoutes = {
     4: {
         displayName: 'General',
         routes: [
-            { path: 'general/permisos', label: 'Permisos' }    
+            { path: 'general/permiso', label: 'Solicitud' }    
         ]
     }
 };
