@@ -44,9 +44,11 @@ const Login = () => {
     };
 
     return (
-        <div className='form-container'>
-            <h2 className='form-container__title'>Círculo Militar</h2>
-            <span className='form-container__subtitle'>¡Mucho más que un buen club!</span>
+        <div className='border mx-auto my-auto p-10 bg-gray-100'>
+            <div className='flex flex-col items-center justify-center mb-5'>
+                <h2 className='font-bold text-sm'>Círculo Militar</h2>
+                <span className='font-bold text-sm'>¡Mucho más que un buen club!</span>
+            </div>
             <form className='form' onSubmit={handleSubmit}>
                 <div className='form__group'>
                     <label className='form__label'>Usuario</label>
@@ -72,7 +74,7 @@ const Login = () => {
                 </div>
                 <button 
                     type='submit' 
-                    className='form__button'
+                    className='bg-blue-900 text-white py-2 rounded-md hover:bg-blue-600'
                 >
                     Ingresar
                 </button>
