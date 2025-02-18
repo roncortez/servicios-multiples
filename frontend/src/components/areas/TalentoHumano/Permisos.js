@@ -323,7 +323,7 @@ function Permisos() {
                         {tiempoPermiso === "dias" && (
                             <div className="flex flex-col mt-4 gap-2">
                                 <label className="flex flex-col">
-                                    Desde
+                                    Fecha de salida
                                     <input
                                         type="date"
                                         value={diaSalida}
@@ -332,7 +332,7 @@ function Permisos() {
                                     />
                                 </label>
                                 <label className="flex flex-col">
-                                    Hasta
+                                    Fecha de presentación
                                     <input
                                         value={diaIngreso}
                                         type="date"

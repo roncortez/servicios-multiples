@@ -84,11 +84,6 @@ function Permisos() {
         }
     }, [diaSalida, diaIngreso]);
 
-    useEffect(() => {
-        console.log("Tipo de permiso actualizado:", tipoPermiso);
-        console.log("Tiempo de permiso actualizado:", tiempoPermiso);
-     }, [tipoPermiso, tiempoPermiso]);
-     
 
     const crearNuevoPermiso = () => {
 
@@ -221,34 +216,66 @@ function Permisos() {
                     <div className="">
                         <h2 className="text-lg font-bold text-gray-600 mb-2">Tipo</h2>
                         <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    value={1}
-                                    name="tipoPermiso"
-                                    checked={tipoPermiso === "1"}
-                                    onChange={(e) => setTipoPermiso(e.target.value)}
-                                    className="accent-blue-500"
-                                />
-                                <span>Personal</span>
-                            </label>
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    value={2}
-                                    name="tipoPermiso"
-                                    checked={tipoPermiso === "2"}
-                                    onChange={(e) => setTipoPermiso(e.target.value)}
-                                    className="accent-blue-500"
-                                />
-                                <span>Médico</span>
-                            </label>
+                            <div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value={1}
+                                        name="tipoPermiso"
+                                        checked={tipoPermiso === "1"}
+                                        onChange={(e) => setTipoPermiso(e.target.value)}
+                                        className="accent-blue-500"
+                                    />
+                                    <span>Personal</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value={2}
+                                        name="tipoPermiso"
+                                        checked={tipoPermiso === "2"}
+                                        onChange={(e) => setTipoPermiso(e.target.value)}
+                                        className="accent-blue-500"
+                                    />
+                                    <span>Médico</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value={3}
+                                        name="tipoPermiso"
+                                        checked={tipoPermiso === "3"}
+                                        onChange={(e) => setTipoPermiso(e.target.value)}
+                                        className="accent-blue-500"
+                                    />
+                                    <span>Calamidad doméstica</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        value={4}
+                                        name="tipoPermiso"
+                                        checked={tipoPermiso === "4"}
+                                        onChange={(e) => setTipoPermiso(e.target.value)}
+                                        className="accent-blue-500"
+                                    />
+                                    <span>Vacaciones</span>
+                                </label>
+                            </div>
+
                         </div>
+
                         {tipoPermiso == 2 && (
-                            <p className="text-sm text-red-500 mt-2">
-                                * Es necesario un certificado médico.
-                            </p>
-                        )}
+                                    <p className="text-sm text-red-500 mt-2">
+                                        * Es necesario un certificado médico.
+                                    </p>
+                                )}
                     </div>
 
                     {/* Duración del Permiso */}
@@ -332,7 +359,7 @@ function Permisos() {
                                     />
                                 </label>
                                 <label className="flex flex-col">
-                                    Fechade presentación
+                                    Fecha de presentación
                                     <input
                                         value={diaIngreso}
                                         type="date"
