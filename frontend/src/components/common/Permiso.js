@@ -122,6 +122,19 @@ function Permisos() {
         empleado.nombre.toLowerCase().includes((busqueda ?? "").toLowerCase())
     );
 
+    const validarFormulario = () => {
+        if(!empleado || !tipoPermiso || !tiempoPermiso) return false;
+
+        if (tiempoPermiso === "horas") {
+            if (!diaPermiso || !horaSalida || !horaIngreso || !totalHoras) return false;
+        }
+    
+        if (tiempoPermiso === "dias") {
+            if (!diaSalida || !diaIngreso || !totalDias) return false;
+        }
+        return true;
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -379,9 +392,10 @@ function Permisos() {
                     {/* Botón Guardar */}
 
                     <button
-                        disabled={permiso}
+                        disabled={permiso || !validarFormulario()}
                         type="submit"
-                        className={`w-full py-2 rounded-lg focus:outline-none focus:ring-2 transition-colors ${permiso ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-900 text-white hover:bg-blue-600'}`}
+                        className={`w-full py-2 rounded-md focus:outline-none focus:ring-2 transition-colors 
+                            ${ (!validarFormulario() || permiso) ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-900 text-white hover:bg-blue-600'}`}
                     >
                         Guardar
                     </button>

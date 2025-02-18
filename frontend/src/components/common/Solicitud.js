@@ -3,7 +3,7 @@ import { jsPDF } from "jspdf";
 import logo from '../../assets/logo.jpg'
 
 const Solicitud = ({ permiso }) => {
-    const generarPdf = () => {
+`    const generarPdf = () => {
         const doc = new jsPDF();
         const anchoPagina = doc.internal.pageSize.width;
         const alturaPagina = doc.internal.pageSize.height;
@@ -111,7 +111,7 @@ const Solicitud = ({ permiso }) => {
                 Imprimir  
             </button>
         </div>
-    );
+    );`
 };
 
 export default Solicitud;
