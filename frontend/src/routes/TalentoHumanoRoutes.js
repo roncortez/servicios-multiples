@@ -4,6 +4,7 @@ import Empleados from '../components/areas/TalentoHumano/Empleados';
 import Solicitud from '../components/areas/TalentoHumano/Solicitud';
 import Reportes from '../components/areas/TalentoHumano/Reportes';
 import Permisos from '../components/areas/TalentoHumano/Permisos';
+import Prueba from '../components/areas/TalentoHumano/Prueba';
 import ProtectedRoute from '../components/common/ProtectedRoute';
 
 const TalentoHumanoRoutes = ({ userRole }) => (
@@ -37,6 +38,14 @@ const TalentoHumanoRoutes = ({ userRole }) => (
       element={
         <ProtectedRoute userRole={userRole} allowedRole={2}>
           <Reportes />
+        </ProtectedRoute>
+      }
+    />
+      <Route
+      path="prueba"
+      element={
+        <ProtectedRoute userRole={userRole} allowedRole={2}>
+          <Prueba />
         </ProtectedRoute>
       }
     />

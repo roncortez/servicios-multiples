@@ -11,8 +11,7 @@ export const roleRoutes = {
             { path: 'talento-humano/empleados', label: 'Empleados' },
             { path: 'talento-humano/solicitud', label: 'Solicitud' },
             { path: 'talento-humano/permisos', label: 'Permisos' },
-            { path: 'talento-humano/reportes', label: 'Reportes' },
-
+            { path: 'talento-humano/reportes', label: 'Reportes' }       
         ],
     },
     3: {

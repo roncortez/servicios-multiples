@@ -20,7 +20,7 @@ const model = {
 
     createPermiso: async (data) => {
 
-        const { id_empleado, id_tipo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
+        const { id_empleado, id_tipo_permiso, id_tiempo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
             total_dias } = data
         try {
 
@@ -29,6 +29,7 @@ const model = {
                     (   
                         id_empleado, 
                         id_tipo_permiso, 
+                        id_tiempo_permiso,
                         dia_permiso, 
                         hora_salida, 
                         hora_ingreso, 
@@ -42,6 +43,7 @@ const model = {
                 VALUES (
                         @id_empleado, 
                         @id_tipo_permiso, 
+                        @id_tiempo_permiso,
                         @dia_permiso, 
                         @hora_salida, 
                         @hora_ingreso, 
@@ -59,6 +61,7 @@ const model = {
             // Solo pasamos el idEmpleado como parámetro
             request.input('id_empleado', sql.Int, id_empleado);
             request.input('id_tipo_permiso', sql.Int, id_tipo_permiso);
+            request.input('id_tiempo_permiso', sql.Int, id_tiempo_permiso);
             request.input('dia_permiso', sql.DateTime, dia_permiso);
             request.input('hora_salida', sql.VarChar, hora_salida);
             request.input('hora_ingreso', sql.VarChar, hora_ingreso);
@@ -174,7 +177,44 @@ const model = {
         }
     },
 
+    actualizarPermiso: async(id, value) => {
+        
+        try {
+            const query = `UPDATE Permisos SET estado = @value WHERE id = @id`
+            const pool = await poolCirmil;
+    
+            const result = await pool.request()
+                .input("id", sql.Int, id)
+                .input("value", sql.TinyInt, value)
+                .query(query);
+    
+            return result;
+        } catch (error) {
+            console.error("Error en el modelo: ", error);
+            throw error;
+        }
+
+    },
+
     // REPORTES
+
+    obtenerTiposPermiso: async() => {
+
+        const query = `SELECT * FROM TipoPermiso`
+        const pool = await poolCirmil;
+        const resultado = await pool.request().query(query);
+
+        return resultado.recordset;
+    },
+
+    obtenerTiempoPermiso: async() => {
+
+        const query = `SELECT * FROM TiempoPermiso`
+        const pool = await poolCirmil;
+        const resultado = await pool.request().query(query);
+
+        return resultado.recordset;
+    },
 
     getReport: async (dates) => {
 

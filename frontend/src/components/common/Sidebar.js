@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { roleRoutes } from '../config/roleRoutes';
 import AuthContext from '../../context/AuthContext';
 
-function Sidebar() {
+const Sidebar = () => {
 
     const { user, logout } = useContext(AuthContext);
     const userRoutes = roleRoutes[user.role];

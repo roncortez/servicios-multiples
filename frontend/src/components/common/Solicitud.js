@@ -165,7 +165,7 @@ const Solicitud = () => {
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl max-w-xl w-full overflow-y-auto">
                 <div className="flex justify-between">
-                    <h1 className="text-3xl font-bold text-gray-700 text-center">Solicitud</h1>
+                    <h1 className="text-3xl font-bold">Solicitud</h1>
                     {permiso &&
                         <button
                             type="button"
