@@ -4,6 +4,8 @@ import PdfPermiso from "./PdfPermiso";
 
 const Solicitud = () => {
     const [tipoPermiso, setTipoPermiso] = useState(null);
+    const [tiposPermiso, setTiposPermiso] = useState([]);
+    const [tiemposPermiso, setTiemposPermiso] = useState([]);
     const [tiempoPermiso, setTiempoPermiso] = useState(null);
     const [numeroPermiso, setNumeroPermiso] = useState(0);
     const [permiso, setPermiso] = useState(null);
@@ -20,23 +22,25 @@ const Solicitud = () => {
     const [totalDias, setTotalDias] = useState(null);
 
     useEffect(() => {
-        const fetchEmpleados = async () => {
+        const obtenerDatos = async () => {
             try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/empleados`
-                );
-                setEmpleados(response.data);
+                const [empleadosData, tiposPermisoData, tiempoPermisoData, ultimoNumeroPermiso ] = await Promise.all([
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/empleados`),
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/tipos-permiso`),
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/tiempo-permiso`),
+                    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/ultimo-permiso`, { responseType: 'text' })
+                ]);
+                setEmpleados(empleadosData.data);
+                setTiposPermiso(tiposPermisoData.data);
+                setTiemposPermiso(tiempoPermisoData.data);
+                setNumeroPermiso(ultimoNumeroPermiso.data);
             } catch (error) {
-                console.error("Error al obtener empleados:", error);
+                console.error("Error al obtener los datos iniciales: ", error);
             }
-        };
-        fetchEmpleados();
+        }
+        
+        obtenerDatos();
     }, []);
-
-    useEffect(() => {
-        obtenerNumeroPermiso();
-    }, []);
-
 
 
     useEffect(() => {
@@ -62,6 +66,7 @@ const Solicitud = () => {
             setTotalDias(dias);
         }
     }, [diaSalida, diaIngreso]);
+
 
     const obtenerNumeroPermiso = async () => {
         try {
@@ -92,19 +97,16 @@ const Solicitud = () => {
         setEmpleado(null);
         setTotalHoras(null);
         setTotalDias(null);
-        // Verificar que los estados se han actualizado
-        console.log("Tipo de permiso:", tipoPermiso);
-        console.log("Tiempo de permiso:", tiempoPermiso);
     }
 
     const validarFormulario = () => {
         if (!empleado || !tiempoPermiso || !tipoPermiso) return false;
-        if (tiempoPermiso==="dias") {
+        if (tiempoPermiso === 1) {
             if (!diaSalida || !diaIngreso) return false;
         }
-        if (tiempoPermiso==="horas") {
+        if (tiempoPermiso === 2) {
             if (!diaPermiso || !horaSalida || !horaIngreso) return false;
-        } 
+        }
 
         return true;
     }
@@ -131,6 +133,7 @@ const Solicitud = () => {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/permiso`, {
                 id_empleado: empleado.id,
                 id_tipo_permiso: tipoPermiso,
+                id_tiempo_permiso: tiempoPermiso,
                 dia_permiso: diaPermiso,
                 hora_salida: horaSalida,
                 hora_ingreso: horaIngreso,
@@ -163,9 +166,10 @@ const Solicitud = () => {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
+
             <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl max-w-xl w-full overflow-y-auto">
                 <div className="flex justify-between">
-                    <h1 className="text-3xl font-bold">Solicitud</h1>
+                    <h1 className="text-3xl font-bold text-gray-700 text-center">Solicitud</h1>
                     {permiso &&
                         <button
                             type="button"
@@ -215,85 +219,56 @@ const Solicitud = () => {
                     </div>
 
                     {/* Tipo de Permiso */}
-                    <div className="">
+                    <div>
                         <h2 className="text-lg font-bold text-gray-600 mb-2">Tipo</h2>
-                        <div className="flex items-center gap-4">
-                            <div>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="radio"
-                                        value={1}
-                                        name="tipoPermiso"
-                                        checked={tipoPermiso === "1"}
-                                        onChange={(e) => setTipoPermiso(e.target.value)}
-                                        className="accent-blue-500"
-                                    />
-                                    <span>Personal</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="radio"
-                                        value={2}
-                                        name="tipoPermiso"
-                                        checked={tipoPermiso === "2"}
-                                        onChange={(e) => setTipoPermiso(e.target.value)}
-                                        className="accent-blue-500"
-                                    />
-                                    <span>Médico</span>
-                                </label>
-                            </div>
-                            <div>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="radio"
-                                        value={3}
-                                        name="tipoPermiso"
-                                        checked={tipoPermiso === "3"}
-                                        onChange={(e) => setTipoPermiso(e.target.value)}
-                                        className="accent-blue-500"
-                                    />
-                                    <span>Calamidad doméstica</span>
-                                </label>
-                            </div>
+                        <div className="flex flex-wrap gap-x-5">
+                            {tiposPermiso && tiposPermiso.map(tipo => (
+                                    <label 
+                                        className="flex gap-x-2"
+                                        key={tipo.id}
+                                    >
+                                        <input
+                                            name="tipoPermiso"
+                                            value={tipo.id}
+                                            type="radio"
+                                            onChange={(e) => setTipoPermiso(e.target.value)}
+                                            checked={tipoPermiso == tipo.id}
+                                        />
+                                        {tipo.nombre}
+                                    </label>
+                            ))}
                         </div>
 
                         {tipoPermiso == 2 && (
-                                    <p className="text-sm text-red-500 mt-2">
-                                        * Es necesario un certificado médico.
-                                    </p>
-                                )}
+                            <p className="text-sm text-red-500 mt-2">
+                                * Es necesario un certificado médico.
+                            </p>
+                        )}
                     </div>
 
                     {/* Duración del Permiso */}
                     <div className="">
                         <h2 className="text-lg font-bold text-gray-600 mb-2">Duración</h2>
                         <div className="flex items-center gap-4">
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    name="tiempoPermiso"
-                                    checked={tiempoPermiso === "horas"}
-                                    value="horas"
-                                    onChange={(e) => handleTiempoPermisoChange(e.target.value)}
-                                />
-                                <span>Por horas</span>
-                            </label>
-                            <label className="flex items-center gap-2">
-                                <input
-                                    type="radio"
-                                    name="tiempoPermiso"
-                                    checked={tiempoPermiso === "dias"}
-                                    value="dias"
-                                    onChange={(e) => handleTiempoPermisoChange(e.target.value)}
-                                />
-                                <span>Por días</span>
-                            </label>
+                            {tiemposPermiso && tiemposPermiso.map(tiempo => (
+                                <label 
+                                    key={tiempo.id}
+                                    className="flex gap-x-2"
+                                    >
+                                    <input 
+                                        type="radio"
+                                        value={tiempo.id}
+                                        name="tiemposPermiso"
+                                        onChange={(e) => handleTiempoPermisoChange(e.target.value)}
+                                        checked={tiempoPermiso == tiempo.id}
+                                    />
+                                    {tiempo.nombre}
+                                </label>
+                            ))}
                         </div>
 
                         {/* Horas */}
-                        {tiempoPermiso === "horas" && (
+                        {tiempoPermiso == 1 && (
                             <div className="flex flex-col mt-4 gap-4">
                                 <div className="flex gap-4">
                                     <label className="flex flex-col">
@@ -335,7 +310,7 @@ const Solicitud = () => {
                         )}
 
                         {/* Días */}
-                        {tiempoPermiso === "dias" && (
+                        {tiempoPermiso == 2 && (
                             <div className="flex flex-col mt-4 gap-2">
                                 <label className="flex flex-col">
                                     Fecha de salida
