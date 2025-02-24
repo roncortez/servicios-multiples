@@ -2,8 +2,6 @@ const { poolPromise: poolCirmil } = require('../../config/db');
 const { poolPromise: poolLince } = require('../../config/dbLince');
 const sql = require('mssql');
 const dayjs = require('dayjs');
-require('dayjs/locale/es');
-dayjs.locale('es');
 
 const model = {
 
@@ -62,7 +60,7 @@ const model = {
             request.input('id_empleado', sql.Int, id_empleado);
             request.input('id_tipo_permiso', sql.Int, id_tipo_permiso);
             request.input('id_tiempo_permiso', sql.Int, id_tiempo_permiso);
-            request.input('dia_permiso', sql.DateTime, dia_permiso);
+            request.input('dia_permiso', sql.DateTime, new Date(dia_permiso));
             request.input('hora_salida', sql.VarChar, hora_salida);
             request.input('hora_ingreso', sql.VarChar, hora_ingreso);
             request.input('total_horas', sql.Float, total_horas);
@@ -88,7 +86,7 @@ const model = {
                 P.id,
                 E.nombre AS empleado,
                 TP.nombre AS tipo,
-                P.dia_permiso,
+                P.dia_permiso,                
                 P.hora_salida,
                 P.hora_ingreso,
                 P.total_horas,
@@ -109,9 +107,17 @@ const model = {
 
             let result = permiso.recordset[0];
 
-            result.dia_permiso = dayjs(result.dia_permiso).format('dddd, DD MMMM YYYY');
+            const fecha = new Date(result.dia_permiso);
+            
+            // Extraer día, mes y año
+            const dia = fecha.getUTCDate().toString().padStart(2, '0');
+            const mes = (fecha.getUTCMonth() + 1).toString().padStart(2, '0'); // Meses en JS van de 0 a 11
+            const anio = fecha.getUTCFullYear();
 
+            result.dia_permiso = `${dia}/${mes}/${anio}`;
+        
             return result;
+
         } catch (error) {
             console.error("Error en el modelo: ", error)
         }
@@ -137,9 +143,7 @@ const model = {
 
     obtenerPermisos: async () => {
         try {
-
-            const query =
-                `
+            const query = `
                 SELECT 
                 P.id,
                 E.nombre AS empleado,
@@ -158,24 +162,47 @@ const model = {
                 ON P.id_empleado = E.id
                 INNER JOIN TipoPermiso AS TP
                 ON P.id_tipo_permiso = TP.id
-                `
+            `;
+    
             const pool = await poolCirmil;
             const result = await pool.request().query(query);
-
-            return result.recordset.map(permiso => (
-                {
+    
+            return result.recordset.map(permiso => {
+                // Función para formatear fecha en DD/MM/YYYY
+                const formatearFecha = (fecha) => {
+                    if (!fecha) return null;
+                    const date = new Date(fecha);
+                    const dia = date.getUTCDate().toString().padStart(2, '0');
+                    const mes = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                    const anio = date.getUTCFullYear();
+                    return `${dia}/${mes}/${anio}`;
+                };
+    
+                // Función para formatear fecha con hora en DD/MM/YYYY HH:mm:ss
+                const formatearFechaHora = (fecha) => {
+                    if (!fecha) return null;
+                    const date = new Date(fecha);
+                    const dia = date.getUTCDate().toString().padStart(2, '0');
+                    const mes = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+                    const anio = date.getUTCFullYear();
+                    const horas = date.getUTCHours().toString().padStart(2, '0');
+                    const minutos = date.getUTCMinutes().toString().padStart(2, '0');
+                    const segundos = date.getUTCSeconds().toString().padStart(2, '0');
+                    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+                };
+    
+                return {
                     ...permiso,
-                    dia_permiso: permiso.dia_permiso ? dayjs(permiso.dia_permiso).format('DD/MM/YYYY') : null,
-                    fecha_creacion: dayjs(permiso.fecha_creacion).format('DD/MM/YYYY HH:mm:ss')
-                }
-            ));
-
-
+                    dia_permiso: formatearFecha(permiso.dia_permiso),
+                    fecha_creacion: formatearFechaHora(permiso.fecha_creacion)
+                };
+            });
+    
         } catch (error) {
-
             console.error("Error en el modelo: ", error);
         }
     },
+    
 
     actualizarPermiso: async(id, value) => {
         
