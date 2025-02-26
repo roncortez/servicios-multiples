@@ -4,6 +4,7 @@ const controller = require('../../controllers/talentoHumano/controller');
 
 // Empleados
 router.get('/talento-humano/empleados', controller.getEmpleados)
+router.post('/talento-humano/empleado', controller.crearEmpleado)
 
 // Permisos
 router.post('/talento-humano/permiso', controller.createPermiso);

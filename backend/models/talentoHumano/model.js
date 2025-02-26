@@ -5,6 +5,8 @@ const dayjs = require('dayjs');
 
 const model = {
 
+    // EMPLEADOS
+
     getEmpleados: async () => {
 
         const query = "SELECT * FROM Empleados ORDER BY Nombre"
@@ -12,6 +14,30 @@ const model = {
         const result = await pool.request().query(query);
 
         return result.recordset;
+    },
+
+    crearEmpleado: async (datos) => {
+
+        const {cedula, nombres, apellido, direccion, telefono, celular} = datos
+
+        try {
+            const query = 
+                `INSERT INTO Empleados (cedula, nombres, apellido, direccion, telefono, celular)
+                VALUES (@cedula, @nombres, @apellido, @direccion, @telefono, @celular)`
+            const pool = await poolCirmil;
+            await pool.request()
+                .input("cedula", sql.VarChar, cedula)
+                .input("nombres", sql.VarChar, nombres)
+                .input("apellido", sql.VarChar, apellido)
+                .input("telefono", sql.VarChar, telefono)
+                .input("celular", sql.VarChar, celular)
+                .input("direccion", sql.VarChar, direccion)
+                .query(query);
+            return { mensaje: "Creación de empleado exitosa" };    
+        } catch (error) {
+            console.error("Error al crear empleado");
+        }
+       
     },
 
     // PERMISOS 
@@ -60,7 +86,7 @@ const model = {
             request.input('id_empleado', sql.Int, id_empleado);
             request.input('id_tipo_permiso', sql.Int, id_tipo_permiso);
             request.input('id_tiempo_permiso', sql.Int, id_tiempo_permiso);
-            request.input('dia_permiso', sql.DateTime, new Date(dia_permiso));
+            request.input('dia_permiso', sql.DateTime, dia_permiso ? new Date(dia_permiso) : null);
             request.input('hora_salida', sql.VarChar, hora_salida);
             request.input('hora_ingreso', sql.VarChar, hora_ingreso);
             request.input('total_horas', sql.Float, total_horas);

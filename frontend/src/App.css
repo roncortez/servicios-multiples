@@ -12,6 +12,5 @@
 .app__routes {
   flex: 1; /* Ocupa el ancho restante */
   overflow: auto; /* Permite scroll si el contenido excede el viewport */
-  padding: 20px; /* Espaciado interno */
   background-color: #f5f5f5; /* Fondo claro para diferenciar */
 }

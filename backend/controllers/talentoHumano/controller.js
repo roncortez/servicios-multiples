@@ -8,6 +8,18 @@ const controller = {
         return res.json(result);
     },
 
+    crearEmpleado: async (req, res) => {
+        try{
+            const datos = req.body
+            const result = await model.crearEmpleado(datos);
+            return res.json(result);
+        } catch (error) {
+            console.error("Error al crear empleado");
+            return res.status(500).json({ message: "Error en el controlador" });
+        }
+       
+    },
+
     // PERMISOS
     createPermiso: async(req, res) => {
         const data = req.body;
