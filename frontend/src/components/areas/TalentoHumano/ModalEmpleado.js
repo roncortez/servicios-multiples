@@ -31,10 +31,10 @@ const ModalEmpleado = ({ isOpen, onClose }) => {
 
     return (
         <div className="absolute left-0 top-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl w-1/2">
+            <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl w-1/2 text-sm">
                 {/* Encabezado */}
                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-semibold">Crear</h2>
+                    <h2 className="text-xl font-semibold">Nuevo empleado</h2>
                     <button
                         className="text-gray-500 hover:text-gray-700"
                         onClick={onClose}
@@ -77,27 +77,30 @@ const ModalEmpleado = ({ isOpen, onClose }) => {
                             onChange={ (e) => setApellidos(e.target.value.toUpperCase()) }
                         />
                     </div>
-                    <div className="flex flex-col">
-                        <label className="font-semibold">Teléfono</label>
-                        <input 
-                            className="border p-1 rounded mb-2" 
-                            type="text"  
-                            value={telefono} 
-                            maxLength="10"
-                            minLength="10"
-                            onChange={ (e) => setTelefono(e.target.value.toUpperCase()) }
-                        />
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="font-semibold">Celular</label>
-                        <input 
-                            className="border p-1 rounded mb-2" 
-                            type="text"  
-                            value={celular} 
-                            maxLength="10"
-                            minLength="10"
-                            onChange={ (e) => setCelular(e.target.value) }
-                        />
+                    <div className="flex gap-2">
+                        <div className="flex flex-col">
+                            <label className="font-semibold">Teléfono</label>
+                            <input 
+                                className="border p-1 rounded mb-2" 
+                                type="text"  
+                                value={telefono} 
+                                maxLength="10"
+                                minLength="10"
+                                onChange={ (e) => setTelefono(e.target.value.toUpperCase()) }
+                            />
+                        </div>
+                        
+                        <div className="flex flex-col">
+                            <label className="font-semibold">Celular</label>
+                            <input 
+                                className="border p-1 rounded mb-2" 
+                                type="text"  
+                                value={celular} 
+                                maxLength="10"
+                                minLength="10"
+                                onChange={ (e) => setCelular(e.target.value) }
+                            />
+                        </div>
                     </div>
                     <div className="flex flex-col">
                         <label className="font-semibold">Dirección</label>

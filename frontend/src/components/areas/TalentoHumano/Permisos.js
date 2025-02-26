@@ -25,7 +25,7 @@ const Permisos = () => {
     }
 
     return (
-        <div className="text-xs border">
+        <div className="p-10 border  overflow-y-auto max-h-[80vh]">
             <div className="grid grid-cols-11 font-semibold border gap-x-5"
                 style={{ gridTemplateColumns: "50px repeat(11, 1fr)" }}
             >
@@ -44,11 +44,11 @@ const Permisos = () => {
 
             {permisos && (permisos.map(permiso =>
                 <div
-                    className="text-xs grid grid-cols-11 border gap-x-5"
+                    className="grid grid-cols-11 border gap-x-5"
                     style={{ gridTemplateColumns: "50px repeat(11, 1fr)" }}
                     key={permiso.id}
                 >
-                    <div className="max-w-[50px] p-2">{permiso.id}</div>
+                    <div className="p-2">{permiso.id}</div>
                     <div className="p-2">{permiso.empleado}</div>
                     <div className="p-2">{permiso.tipo}</div>
                     <div className="p-2">{permiso.dia_permiso}</div>

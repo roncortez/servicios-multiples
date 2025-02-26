@@ -24,10 +24,6 @@ const Empleados = () => {
             <div className="flex items-center justify-between w-full">
                 <div className="">
                     <h1 className='text-2xl font-bold'>Empleados</h1>
-                    <input
-                        type="search"
-                        placeholder="Buscar..."
-                    />
                 </div>
                 <div className="flex items-center">
                     <button className="text-3xl" onClick={() => setModalEmpleado(true)}>
