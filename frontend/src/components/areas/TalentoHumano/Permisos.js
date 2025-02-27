@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Solicitud from './Solicitud'
 import PdfPermiso from "../../common/PdfPermiso";
 const Permisos = () => {
 

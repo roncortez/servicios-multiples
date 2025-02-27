@@ -108,7 +108,7 @@ const PdfPermiso = ({ permiso }) => {
                 className="bg-blue-900 rounded-lg text-white p-2 w-full"
                 onClick={generarPdf}
             >
-                Imprimir  
+                Descargar  
             </button>
         </div>
     );

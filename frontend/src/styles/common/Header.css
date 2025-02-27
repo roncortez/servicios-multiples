@@ -3,7 +3,7 @@
     height: 70px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 3px solid #F2F2F2;
+    border-bottom: 1px solid #F2F2F2;
     padding: 10px;
     box-sizing: border-box;
 }

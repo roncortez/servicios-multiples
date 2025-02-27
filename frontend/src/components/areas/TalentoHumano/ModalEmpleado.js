@@ -3,7 +3,7 @@ import axios from "axios";
 
 const ModalEmpleado = ({ isOpen, onClose }) => {
 
-    const [cedula, setCedula] = useState("");
+    const [cedula, setCedula] = useState(null);
     const [nombres, setNombres] = useState("");
     const [apellidos, setApellidos] = useState("");
     const [telefono, setTelefono] = useState("");
@@ -14,16 +14,17 @@ const ModalEmpleado = ({ isOpen, onClose }) => {
         event.preventDefault(); // Evita el envío automático del formulario
         try {
             await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/talento-humano/empleado`, {
-                cedula: cedula,
+                cedula: cedula.trim() === "" ? null : cedula,
                 nombres: nombres,
                 apellido: apellidos,
                 telefono: telefono,
                 celular: celular,
                 direccion: direccion
             });
-            alert("Empleado registrado")
+            alert("Empleado creado exitosamente")
         } catch (error) {
             console.log(error);
+            alert("Error al crear permiso")
         }        
     }
 
@@ -31,7 +32,7 @@ const ModalEmpleado = ({ isOpen, onClose }) => {
 
     return (
         <div className="absolute left-0 top-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl w-1/2 text-sm">
+            <div className="flex flex-col gap-2 bg-white p-8 shadow-lg rounded-xl text-sm">
                 {/* Encabezado */}
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold">Nuevo empleado</h2>
@@ -85,7 +86,7 @@ const ModalEmpleado = ({ isOpen, onClose }) => {
                                 type="text"  
                                 value={telefono} 
                                 maxLength="10"
-                                minLength="10"
+                                minLength="9"
                                 onChange={ (e) => setTelefono(e.target.value.toUpperCase()) }
                             />
                         </div>
