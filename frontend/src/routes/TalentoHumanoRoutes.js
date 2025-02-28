@@ -6,6 +6,7 @@ import Reportes from '../components/areas/TalentoHumano/Reportes';
 import Permisos from '../components/areas/TalentoHumano/Permisos';
 import Prueba from '../components/areas/TalentoHumano/Prueba';
 import ProtectedRoute from '../components/common/ProtectedRoute';
+import GestionDocumental from '../components/common/GestionDocumental';
 
 const TalentoHumanoRoutes = ({ userRole }) => (
   <Routes>
@@ -30,6 +31,14 @@ const TalentoHumanoRoutes = ({ userRole }) => (
       element={
         <ProtectedRoute userRole={userRole} allowedRole={2}>
           <Permisos />
+        </ProtectedRoute>
+      }
+    />
+     <Route
+      path="gestion-documental"
+      element={
+        <ProtectedRoute userRole={userRole} allowedRole={2}>
+          <GestionDocumental />
         </ProtectedRoute>
       }
     />

@@ -10,6 +10,7 @@ const loginRouter = require('./routes/loginRoutes');
 const socioRouter = require('./routes/socioRoutes');
 const reportRouter = require('./routes/reportRoutes');
 const talentoHumanoRouter = require('./routes/talentoHumano/routes');
+const gestionRouter = require('./routes/gestion/routes');
 
 // Configuración de CORS
 app.use(cors({
@@ -27,6 +28,7 @@ app.use('/api', socioRouter);
 app.use('/api', reportRouter);
 app.use('/api', reportRouter);
 app.use('/api', talentoHumanoRouter);
+app.use('/api', gestionRouter);
 
 
 // Configurar frontend

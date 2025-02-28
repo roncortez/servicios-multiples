@@ -44,7 +44,8 @@ const model = {
 
     createPermiso: async (data) => {
 
-        const { id_empleado, id_tipo_permiso, id_tiempo_permiso, dia_permiso, hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
+        const { id_empleado, id_tipo_permiso, id_tiempo_permiso, dia_permiso, 
+            hora_salida, hora_ingreso, total_horas, fecha_salida, fecha_ingreso,
             total_dias } = data
         try {
 
@@ -188,6 +189,7 @@ const model = {
                 ON P.id_empleado = E.id
                 INNER JOIN TipoPermiso AS TP
                 ON P.id_tipo_permiso = TP.id
+                ORDER BY P.id DESC
             `;
     
             const pool = await poolCirmil;
